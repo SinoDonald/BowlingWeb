@@ -23,9 +23,13 @@
     <link rel="stylesheet" href="~/Content/templatemo-space-dynamic.css">
     <link rel="stylesheet" href="~/Content/animated.css">
     <link rel="stylesheet" href="~/Content/owl.css">
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-ui-router.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
         <div class="container">
@@ -39,14 +43,12 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">首頁</a></li>
-                            <li class="scroll-to-section"><a href="#about">關於我們</a></li>
-                            <li class="scroll-to-section"><a href="#record">個人紀錄</a></li>
-                            <li class="scroll-to-section"><a href="#chartMenu">統計圖表</a></li>
+                            <li class="scroll-to-section">@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
+                            <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>
+                            <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
                             <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink("登入", "Login", "Member")</div></li>
-                            @*<li class="scroll-to-section"><a href="#Register">註冊</a></li>
-                            <li class="scroll-to-section"><div class="main-red-button"><a href="#signIn">登入</a></div></li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -83,6 +85,14 @@
     <script src="~/Scripts/js/animation.js"></script>
     <script src="~/Scripts/js/imagesloaded.js"></script>
     <script src="~/Scripts/js/templatemo-custom.js"></script>
+
+    <!-- Bootstrap core JS-->
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>*@
+    <!-- SimpleLightbox plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
