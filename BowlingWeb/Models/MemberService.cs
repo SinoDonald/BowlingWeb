@@ -8,47 +8,22 @@ namespace BowlingWeb.Models
 {
     public class MemberService
     {
-        private IMemberRepository _assessmentRepository;
-        private IUserRepository _userRepository;
+        private IMemberRepository _memberRepository;
 
         public MemberService()
         {
-            _assessmentRepository = new SelfAssessmentTxtRepository();
-            _userRepository = new UserRepository();
+            _memberRepository = new MemberTxtRepository();
         }
 
-        public List<Member> GetAllSelfAssessments()
+        public List<Member> GetAllMember()
         {
-            var selfAssessments = _assessmentRepository.GetAll();
-            return selfAssessments;
+            var members = _memberRepository.GetAll();
+            return members;
         }
 
-        public bool UpdateResponse(List<Member> assessments, string user, string state, string year)
+        public void Dispose()
         {
-            return (_assessmentRepository as SelfAssessmentTxtRepository).Update(assessments, user, state, year, DateTime.Now);
-        }
-
-        public SelfAssessResponse GetSelfAssessmentResponse(string user, string year = "")
-        {
-            if (String.IsNullOrEmpty(year))
-                year = Utilities.DayStr();
-
-            string state = (_assessmentRepository as SelfAssessmentTxtRepository).GetStateOfResponse(user, year);
-            var selfAssessmentResponse = (_assessmentRepository as SelfAssessmentTxtRepository).GetResponse(user, year);
-
-            return new SelfAssessResponse() { Responses = selfAssessmentResponse, State = state };
-        }
-
-        public List<Member> GetSelfAssessmentMResponse(string empId, string user)
-        {
-            var selfAssessmentMResponse = (_assessmentRepository as SelfAssessmentTxtRepository).GetMResponse(empId, user);
-            return selfAssessmentMResponse;
-        }
-
-        public class SelfAssessResponse
-        {
-            public string State { get; set; }
-            public List<Member> Responses { get; set; }
+            _memberRepository.Dispose();
         }
     }
 }

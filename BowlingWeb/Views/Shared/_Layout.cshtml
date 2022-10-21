@@ -1,17 +1,17 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>無聊滾球</title>
-
+    <base href="@Url.Content("~/")" />"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">*@
 
     <title>Bowling Balls - 紀錄平台</title>
 
@@ -37,18 +37,18 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
+                        <a href="@Url.Content("~/")"  class="logo">
                             <h4>無聊<span>滾球</span></h4>
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section">@Html.ActionLink("首頁", "Index", "Home")</li>
-                            <li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
                             <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>
-                            <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
                             <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink("登入", "Login", "Member")</div></li>
+                            @*<li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
+                            <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -87,7 +87,7 @@
     <script src="~/Scripts/js/templatemo-custom.js"></script>
 
     <!-- Bootstrap core JS-->
-    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- SimpleLightbox plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
     <!-- Core theme JS-->

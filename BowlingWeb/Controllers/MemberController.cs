@@ -48,19 +48,13 @@ namespace BowlingWeb.Controllers
             return View();
         }
 
-        // =============== Web API ================
-        [HttpPost]
-        public JsonResult GetAllUser()
-        {
-            var ret = _service.GetAllSelfAssessments();
-            return Json(ret);
-        }
+		// =============== Web API ================
 
-        [HttpPost]
-        public bool CreateResponse(List<Member> assessments, string state, string year)
+		[HttpPost]
+        public JsonResult GetAllMember()
         {
-            bool ret = _service.UpdateResponse(assessments, Session["empno"].ToString(), state, year);
-            return ret;
+            var ret = _service.GetAllMember();
+            return Json(ret);
         }
     }
 }
