@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows;
 
 namespace BowlingWeb.Models
 {
@@ -16,25 +17,43 @@ namespace BowlingWeb.Models
         {
             _appData = HttpContext.Current.Server.MapPath("~/App_Data");
         }
-
+        // 讀取所有成員資訊
         public List<Member> GetAll()
         {
-            string fn = Path.Combine(_appData, "SelfAssessments.txt");
-            string[] lines = System.IO.File.ReadAllLines(fn);
-            List<Member> selfAssessments = new List<Member>();
-
-            foreach (var item in lines)
+            List<Member> userInfo = new List<Member>();
+            string dirPath = Path.Combine(_appData, $"Member");
+            string[] dirs = Directory.GetDirectories(dirPath);
+            foreach (string dir in dirs)
             {
-                string[] subs = item.Split('\t');
-                Member selfAssessment = new Member();
-
-                selfAssessment.Id = Convert.ToInt32(subs[0]);
-                selfAssessments.Add(selfAssessment);
+                Member user = new Member();
+                user.Name = Path.GetFileNameWithoutExtension(dir); // 成員名稱
+                DirectoryInfo di = new DirectoryInfo(@dir);
+                foreach (FileInfo skill in di.GetFiles())
+                {
+                    if (File.Exists(skill.FullName))
+                    {
+                        try
+                        {
+                            SkillScores skillScores = new SkillScores();
+                            skillScores.Skill = Path.GetFileNameWithoutExtension(skill.Name);
+                            foreach (string score in File.ReadAllLines(skill.FullName))
+                            {
+                                skillScores.Scores.Add(Convert.ToDouble(score));
+                            }
+                            user.SkillScores.Add(skillScores);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+                userInfo.Add(user);
             }
 
-            selfAssessments = selfAssessments.OrderBy(a => a.Id).ToList();
+            userInfo = userInfo.OrderBy(a => a.Name).ToList();
 
-            return selfAssessments;
+            return userInfo;
         }
 
         public void Dispose()

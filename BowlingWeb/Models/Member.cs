@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace BowlingWeb.Models
 {
+    public class SkillScores
+    {
+        public string Skill { get; set; }
+        public List<double> Scores = new List<double>();
+    }
     public class Member
     {
         public int Id { get; set; }
-        public int CategoryId { get; set; }
-        public string Content { get; set; }
-        public int UserId { get; set; }
-        public string Choice { get; set; }
-        public string ManagerChoice { get; set; }
+        public string Name { get; set; }
+        public List<SkillScores> SkillScores = new List<SkillScores>();
     }
 }

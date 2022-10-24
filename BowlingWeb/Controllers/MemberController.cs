@@ -42,6 +42,11 @@ namespace BowlingWeb.Controllers
         {
             return View();
         }
+        // 個人紀錄
+        public ActionResult UsersRecord()
+        {
+            return PartialView();
+        }
         // 統計圖表
         public ActionResult Chart()
         {
