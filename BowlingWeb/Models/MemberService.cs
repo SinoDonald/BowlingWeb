@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BowlingWeb.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +13,20 @@ namespace BowlingWeb.Models
 
         public MemberService()
         {
-            _memberRepository = new MemberTxtRepository();
+            //_memberRepository = new MemberTxtRepository();
+            _memberRepository = new MemberRepository();
         }
 
         public List<Member> GetAllMember()
         {
             var members = _memberRepository.GetAll();
             return members;
+        }
+
+        public Member CreateMember(Member member)
+        {
+            var ret = _memberRepository.Create(member);
+            return ret;
         }
 
         public void Dispose()

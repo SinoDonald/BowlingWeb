@@ -1,4 +1,5 @@
-﻿using BowlingWeb.Models;
+﻿using BowlingWeb.Filters;
+using BowlingWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +15,7 @@ using System.Web.Mvc;
 
 namespace BowlingWeb.Controllers
 {
+    //[MyAuthorize]
     public class MemberController : Controller
 	{
 		private MemberService _service;
@@ -59,6 +61,12 @@ namespace BowlingWeb.Controllers
         public JsonResult GetAllMember()
         {
             var ret = _service.GetAllMember();
+            return Json(ret);
+        }
+        [HttpPost]
+        public JsonResult CreateMember(Member member)
+        {                
+            var ret = _service.CreateMember(member);
             return Json(ret);
         }
     }

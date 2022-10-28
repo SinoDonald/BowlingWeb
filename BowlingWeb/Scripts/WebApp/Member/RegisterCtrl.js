@@ -7,24 +7,19 @@ app.run(['$http', '$window', function ($http, $window) {
 
 app.service('appService', ['$http', function ($http) {
 
-    this.GetAllMember = function (o) {
-        return $http.post("Member/GetAllMember", o);
+    this.CreateMember = function (o) {
+        return $http.post("Member/CreateMember", o);
     };
 
 }]);
 
 app.controller('RegisterCtrl', ['$scope', '$window', 'appService', function ($scope, $window, appService) {
 
-    $scope.Member = [];
-
-    $scope.firstName = "donald";
-    $scope.lastName = "Lu";
-
-    appService.GetAllMember({})
-        .then(function (ret) {
-            $scope.Member = ret.data;
-        })
-        .catch(function (ret) {
-            alert('Error');
-        });
+    // 儲存檔案或寄送
+    $scope.CreateMember = function () {
+        appService.CreateMember($scope.Member)
+            .then(function (ret) {
+                $window.location.href = 'Home/Index';
+            });
+    };
 }]);

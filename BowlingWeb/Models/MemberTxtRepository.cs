@@ -17,6 +17,11 @@ namespace BowlingWeb.Models
         {
             _appData = HttpContext.Current.Server.MapPath("~/App_Data");
         }
+
+        public Member Get(string UserId)
+        {
+            throw new NotImplementedException();
+        }
         // 讀取所有成員資訊
         public List<Member> GetAll()
         {
@@ -59,6 +64,11 @@ namespace BowlingWeb.Models
         public void Dispose()
         {
             return;
+        }
+
+        public Member Create(Member member)
+        {
+            throw new NotImplementedException();
         }
     }
 }
