@@ -23,6 +23,12 @@ namespace BowlingWeb.Models
             return members;
         }
 
+        public Member GetMember(Member member)
+        {
+            var ret = _memberRepository.Get(member);
+            return ret;
+        }
+
         public Member CreateMember(Member member)
         {
             var ret = _memberRepository.Create(member);

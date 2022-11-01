@@ -28,12 +28,25 @@ namespace BowlingWeb.Filters
 
             return ret;
         }
+        public Member Get(Member member)
+        {
+            Member ret;
+            string account = member.Account;
+            string password = member.Password;
+
+            //string sql = @"select * from user where empno=@id";
+            string sql = @"select * from Member where Name=@account and Password=@password";
+            ret = conn.Query<Member>(sql, new { account, password }).ToList().SingleOrDefault();
+
+            return ret;
+        }
 
         public Member Create(Member member)
         {
             Member ret;
 
-            string sql = @"INSERT INTO Member VALUES(" + member.Account + ", " + member.Password + ", " + member.Name + ", " + member.Email + ", " + member.Email + ", " + member.Email + ")";
+            //string sql = @"INSERT INTO Member VALUES(" + member.Account + ", " + member.Password + ", " + member.Name + ", " + member.Email + ", " + member.Email + ", " + member.Email + ")";
+            string sql = @"INSERT INTO Member VALUES (@member.Account, @member.Password, @member.Name, @member.Email, @member.Email, @member.Email)";
             ret = conn.Query<Member>(sql).ToList().SingleOrDefault();
 
             return ret;
@@ -43,16 +56,6 @@ namespace BowlingWeb.Filters
             List<Member> ret;
             string sql = @"select * from user where duty != 'NULL' order by dutyName";
             ret = conn.Query<Member>(sql).ToList();
-
-            return ret;
-        }
-        public Member Get(string id)
-        {
-            Member ret;
-
-            //string sql = @"select * from user where empno=@id";
-            string sql = @"SELECT * FROM user AS u LEFT JOIN userExtra AS e ON u.empno = e.empno WHERE u.empno=@id";
-            ret = conn.Query<Member>(sql, new { id }).SingleOrDefault();
 
             return ret;
         }

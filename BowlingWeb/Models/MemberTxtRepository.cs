@@ -18,7 +18,7 @@ namespace BowlingWeb.Models
             _appData = HttpContext.Current.Server.MapPath("~/App_Data");
         }
 
-        public Member Get(string UserId)
+        public Member Get(Member member)
         {
             throw new NotImplementedException();
         }

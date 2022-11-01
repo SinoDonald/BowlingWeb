@@ -64,6 +64,12 @@ namespace BowlingWeb.Controllers
             return Json(ret);
         }
         [HttpPost]
+        public JsonResult GetMember(Member member)
+        {
+            var ret = _service.GetMember(member);
+            return Json(ret);
+        }
+        [HttpPost]
         public JsonResult CreateMember(Member member)
         {                
             var ret = _service.CreateMember(member);

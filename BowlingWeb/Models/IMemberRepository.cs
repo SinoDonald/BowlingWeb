@@ -4,7 +4,7 @@ namespace BowlingWeb.Models
 {
     public interface IMemberRepository
     {
-        Member Get(string Account);
+        Member Get(Member member);
         Member Create(Member member);
         List<Member> GetAll();
         void Dispose();

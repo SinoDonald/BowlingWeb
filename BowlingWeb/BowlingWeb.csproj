@@ -144,6 +144,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Models\MemberRepository.cs" />
@@ -323,8 +324,8 @@
     <Content Include="Scripts\vendor\jquery\jquery.min.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.min.js" />
-    <Content Include="Scripts\WebApp\Member\IndexCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RecordCtrl.js" />
+    <Content Include="Scripts\WebApp\Member\LoginCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RegisterCtrl.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -355,6 +356,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Member\UsersRecord.cshtml" />
+    <Content Include="Views\Error\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

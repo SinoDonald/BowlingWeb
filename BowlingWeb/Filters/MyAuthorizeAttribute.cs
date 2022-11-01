@@ -37,14 +37,17 @@ namespace BowlingWeb.Filters
             }
 
             string loginUser = filterContext.HttpContext.User.Identity.Name;
+            string password = filterContext.HttpContext.User.Identity.Name;
             Match m = Regex.Match(loginUser, @"\\{0,1}(\d{4})@{0,1}");
             if (m.Success)
                 loginUser = m.Groups[1].ToString();
+                password = m.Groups[1].ToString();
             //-------------------------------------------------------
 
+            Member member = new Member();
             if (filterContext.HttpContext.Session["empno"] == null)
             {
-                var ret = _memberRepository.Get(loginUser);
+                var ret = _memberRepository.Get(member);
 
                 if (ret != null)
                 {
