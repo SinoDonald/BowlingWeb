@@ -46,9 +46,16 @@
                             <li class="scroll-to-section">@Html.ActionLink("首頁", "Index", "Home")</li>
                             <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
-                            <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink("登入", "Login", "Member")</div></li>
+                            @if (Session["Account"] == null)
+                            {
+                                <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink("登入", "Login", "Member")</div></li>
+                            }
+                            @if (Session["Account"] != null)
+                            {
+                                <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink(Session["Account"].ToString(), "Login", "Member")</div></li>
+                            }
                             @*<li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
-                            <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
+        <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

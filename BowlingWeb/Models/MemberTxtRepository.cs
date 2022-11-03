@@ -18,7 +18,17 @@ namespace BowlingWeb.Models
             _appData = HttpContext.Current.Server.MapPath("~/App_Data");
         }
 
-        public Member Get(Member member)
+        public Member Login(Member member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Member Create(Member member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Member GetMember(string account)
         {
             throw new NotImplementedException();
         }
@@ -64,11 +74,6 @@ namespace BowlingWeb.Models
         public void Dispose()
         {
             return;
-        }
-
-        public Member Create(Member member)
-        {
-            throw new NotImplementedException();
         }
     }
 }

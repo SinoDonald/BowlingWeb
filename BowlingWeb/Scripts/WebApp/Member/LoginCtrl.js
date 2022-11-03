@@ -7,8 +7,9 @@ app.run(['$http', '$window', function ($http, $window) {
 
 app.service('appService', ['$http', function ($http) {
 
-    this.GetMember = function (o) {
-        return $http.post("Member/GetMember", o);
+    // 取得登入帳號
+    this.Login = function (o) {
+        return $http.post("Member/Login", o);
     };
 
 }]);
@@ -16,10 +17,15 @@ app.service('appService', ['$http', function ($http) {
 app.controller('LoginCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
     // 登入
-    $scope.GetMember = function () {
-        appService.GetMember($scope.Member)
+    $scope.Login = function () {
+        appService.Login($scope.Member)
             .then(function (ret) {
                 $window.location.href = 'Home/Index';
+                //$window.location.href = 'Member/Record';
             });
     };
+
+    //// 移至成員選項
+    //$location.path('/Record');
+
 }]);

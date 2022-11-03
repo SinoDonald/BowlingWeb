@@ -17,16 +17,22 @@ namespace BowlingWeb.Models
             _memberRepository = new MemberRepository();
         }
 
+        public Member Login(Member member)
+        {
+            var ret = _memberRepository.Login(member);
+            return ret;
+        }
+        // 個人紀錄
+        public Member GetMember(string account)
+        {
+            var ret = _memberRepository.GetMember(account);
+            return ret;
+        }
+
         public List<Member> GetAllMember()
         {
             var members = _memberRepository.GetAll();
             return members;
-        }
-
-        public Member GetMember(Member member)
-        {
-            var ret = _memberRepository.Get(member);
-            return ret;
         }
 
         public Member CreateMember(Member member)

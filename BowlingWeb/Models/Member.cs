@@ -23,6 +23,8 @@ namespace BowlingWeb.Models
         [Required]
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}")]
         public string Email { get;set; }
+        public string Skill { get; set; }
+        public string Scores { get; set; }
         public List<SkillScores> SkillScores = new List<SkillScores>();
     }
 }

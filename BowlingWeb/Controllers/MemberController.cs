@@ -44,11 +44,6 @@ namespace BowlingWeb.Controllers
         {
             return View();
         }
-        // 個人紀錄
-        public ActionResult UsersRecord()
-        {
-            return PartialView();
-        }
         // 統計圖表
         public ActionResult Chart()
         {
@@ -57,22 +52,35 @@ namespace BowlingWeb.Controllers
 
 		// =============== Web API ================
 
-		[HttpPost]
-        public JsonResult GetAllMember()
-        {
-            var ret = _service.GetAllMember();
-            return Json(ret);
-        }
-        [HttpPost]
-        public JsonResult GetMember(Member member)
-        {
-            var ret = _service.GetMember(member);
-            return Json(ret);
-        }
+        // 註冊
         [HttpPost]
         public JsonResult CreateMember(Member member)
         {                
             var ret = _service.CreateMember(member);
+            return Json(ret);
+        }
+        // 登入
+        [HttpPost]
+        public JsonResult Login(Member member)
+        {
+            var ret = _service.Login(member);
+            // 把登入者的資料傳進Session["Account"]做紀錄
+            Session["Account"] = ret.Account;
+
+            return Json(ret);
+        }
+        // 個人紀錄
+        [HttpPost]
+        public JsonResult GetMember(string account)
+        {
+            //account = @Session["Account"].ToString();
+            var ret = _service.GetMember(account);
+            return Json(ret);
+        }
+        [HttpPost]
+        public JsonResult GetAllMember()
+        {
+            var ret = _service.GetAllMember();
             return Json(ret);
         }
     }
