@@ -1,4 +1,5 @@
 ﻿using BowlingWeb.Filters;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace BowlingWeb.Models
         public Member Login(Member member)
         {
             var ret = _memberRepository.Login(member);
+            return ret;
+        }
+        // 讀取資料
+        public Member ReadData()
+        {
+            var ret = _memberRepository.ReadData();
             return ret;
         }
         // 個人紀錄

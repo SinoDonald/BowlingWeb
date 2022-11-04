@@ -7,11 +7,12 @@
 
 <div ng-controller="RecordCtrl" class="container" style="margin-top: 60px">
     <div class="row">
-        <div class="col-sm-3" ng-repeat="user in Member">
-            <h4>{{user.Name}}</h4>
-            <div ng-repeat="skillScores in user.SkillScores">
-                <h5>{{skillScores.Skill}}</h5>
-                <h5>{{skillScores.Scores}}</h5>
+        <h4>{{Member.Name}}</h4>
+        <br />
+        <div class="col" ng-repeat="skillScores in Member.SkillScores">
+            <h4>{{skillScores.Skill}}</h4>
+            <div ng-repeat="scores in skillScores.Scores track by $index">
+                <h6>{{scores}}</h6>
             </div>
         </div>
     </div>

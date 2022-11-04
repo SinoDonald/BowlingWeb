@@ -12,6 +12,7 @@ namespace BowlingWeb.Controllers
     {
         public ActionResult Index()
         {
+            @Session["Account"] = "Donald";
             return View();
         }
 

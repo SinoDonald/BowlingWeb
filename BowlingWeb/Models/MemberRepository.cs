@@ -22,12 +22,9 @@ namespace BowlingWeb.Filters
         public Member Login(Member member)
         {
             Member ret;
-            string account = member.Account;
-            string password = member.Password;
 
-            string sql = @"SELECT * FROM Member WHERE Account=" + account;
-            //string sql = @"select * from Member where Account=@member.Account AND Password=@password";
-            ret = conn.Query<Member>(sql, new { account, password }).ToList().SingleOrDefault();
+            string sql = @"select * from Member where Account=@Account and Password=@Password";
+            ret = conn.Query<Member>(sql, member).ToList().FirstOrDefault();
 
             return ret;
         }
@@ -36,20 +33,24 @@ namespace BowlingWeb.Filters
         {
             Member ret;
 
-            string sql = @"select * from Member where Name=@account";
+            string sql = @"select * from Member where Account=@account";
             List<Member> members = conn.Query<Member>(sql, new { account }).ToList();
             ret = conn.Query<Member>(sql, new { account }).ToList().FirstOrDefault();
-
             foreach (Member member in members)
             {
                 SkillScores skillScores = new SkillScores();
                 skillScores.Skill = member.Skill;
-                //skillScores.Scores = member.Scores;
+                string[] scores = member.Scores.Split(',');
+                foreach(string score in scores)
+                {
+                    skillScores.Scores.Add(Convert.ToDouble(score));
+                }
                 ret.SkillScores.Add(skillScores);
             }
 
             return ret;
         }
+
         public List<Member> GetAll()
         {
             List<Member> ret;
@@ -59,14 +60,13 @@ namespace BowlingWeb.Filters
 
             return ret;
         }
-
+        // 註冊
         public Member Create(Member member)
         {
             Member ret;
 
-            //string sql = @"INSERT INTO Member VALUES(" + member.Account + ", " + member.Password + ", " + member.Name + ", " + member.Email + ", " + member.Email + ", " + member.Email + ")";
-            string sql = @"INSERT INTO Member VALUES (@member.Account, @member.Password, @member.Name, @member.Email, @member.Email, @member.Email)";
-            ret = conn.Query<Member>(sql).ToList().SingleOrDefault();
+            string sql = @"INSERT INTO Member VALUES (@Account, @Password, @Name, @Name, @Email, @Email, @Email)";
+            ret = conn.Query<Member>(sql, member).ToList().SingleOrDefault();
 
             return ret;
         }
