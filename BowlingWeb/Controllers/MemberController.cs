@@ -1,5 +1,7 @@
 ﻿using BowlingWeb.Filters;
 using BowlingWeb.Models;
+using ClosedXML.Excel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +10,7 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -31,31 +34,8 @@ namespace BowlingWeb.Controllers
             return View();
         }
         // 讀取資料
-        public ActionResult Read(BowlingWeb.Models.ReadExcel readExcel)
+        public ActionResult Read()
         {
-            if (ModelState.IsValid)
-            {
-                string path = Server.MapPath("~/Content/Upload/" + readExcel.file.FileName);
-                readExcel.file.SaveAs(path);
-
-                string excelConnectionString = @"Provider='Microsoft.ACE.OLEDB.12.0';Data Source='" + path + "';Extended Properties='Excel 12.0 Xml;IMEX=1'";
-                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-
-                //Sheet Name
-                excelConnection.Open();
-                string tableName = excelConnection.GetSchema("Tables").Rows[0]["TABLE_NAME"].ToString();
-                excelConnection.Close();
-                //End
-
-                //Putting Excel Data in DataTable
-                DataTable dataTable = new DataTable();
-                OleDbDataAdapter adapter = new OleDbDataAdapter("Select * from [" + tableName + "]", excelConnection);
-                adapter.Fill(dataTable);
-                //End
-
-                Session["ExcelData"] = dataTable;
-                //ReadSession(1);
-            }
             return View();
         }
         // 註冊
@@ -101,9 +81,9 @@ namespace BowlingWeb.Controllers
         }
         // 讀取資料
         [HttpPost]
-        public JsonResult ReadData()
+        public JsonResult ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
         {
-            var ret = _service.ReadData();
+            var ret = _service.ReadData(excelFile, callback);
             return Json(ret);
         }
         // 個人紀錄

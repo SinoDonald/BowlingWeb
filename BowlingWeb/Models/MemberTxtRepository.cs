@@ -75,5 +75,10 @@ namespace BowlingWeb.Models
         {
             return;
         }
+
+        public List<Member> ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

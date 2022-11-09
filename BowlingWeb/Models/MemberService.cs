@@ -1,10 +1,16 @@
 ﻿using BowlingWeb.Filters;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Windows;
 
 namespace BowlingWeb.Models
 {
@@ -24,9 +30,9 @@ namespace BowlingWeb.Models
             return ret;
         }
         // 讀取資料
-        public Member ReadData()
+        public List<Member> ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
         {
-            var ret = _memberRepository.ReadData();
+            var ret = _memberRepository.ReadData(excelFile, callback);
             return ret;
         }
         // 個人紀錄
