@@ -5,8 +5,30 @@
 
 <h2>Read</h2>
 
-<div ng-controller="ReadCtrl" class="container" style="margin-top: 60px">
-    <div>請輸入資料</div>
+<div ng-controller="ReadCtrl" class="container" style="margin-top: 100px">
+
+    <div class="form-group d-flex justify-content-between">
+        <h5>Read</h5>
+        <div class="row">
+            <div class="col-sm-3" ng-repeat="item in Member">
+                <div class="card border-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.Name}}</h5>
+                        <p class="card-text">{{item.Name}}</p>
+                        <input type="submit" value="填問卷" ng-click="ReadData()" class="btn btn-warning" />
+                        <button class="btn btn-success" ng-click="ReadData()">已填寫</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/WebApp/Member/ReadCtrl.js"></script>
+}
+
+@*<div>請輸入資料</div>
     <table>
         <tr>
             <td><input id="C00" /></td>
@@ -32,10 +54,5 @@
         <input type="file" name="excelFile" />
         <input type="submit" value="匯入" ng-click="ReadData()" class="btn btn-warning" />
     </form>
-    <iframe name="resultFrame" style="display:none;"></iframe>
-</div>
-
-@section Scripts {
-    <script src="~/Scripts/WebApp/Member/ReadCtrl.js"></script>
-}
+    <iframe name="resultFrame" style="display:none;"></iframe>*@
 

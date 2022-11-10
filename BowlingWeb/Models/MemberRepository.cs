@@ -96,6 +96,10 @@ namespace BowlingWeb.Filters
                 //return Content($"<script>alert({JsonConvert.SerializeObject(ex.Message)})</script>", "text/html");
             }
 
+            Member member1 = new Member();
+            member1.Name = "TEST";
+            memberList.Add(member1);
+
             return memberList;
         }
         // 個人紀錄
