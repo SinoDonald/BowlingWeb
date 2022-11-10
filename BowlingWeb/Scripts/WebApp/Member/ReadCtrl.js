@@ -29,7 +29,8 @@ app.controller('ReadCtrl', ['$scope', '$window', 'appService', '$rootScope', fun
 
     // 讀取資料
     $scope.ReadData = function () {
-        appService.ReadData({ excelFile: $scope.data, callback: $scope.data })
+        appService.ReadData({
+            excelFile: "C:\Prj\ASP.Net\BowlingWeb\BowlingWeb\App_Data" })
             .then(function (ret) {
                 $scope.Member = ret.data;
             })

@@ -1,5 +1,4 @@
-﻿using BowlingWeb.Models;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using Dapper;
 //using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -11,9 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace BowlingWeb.Filters
+namespace BowlingWeb.Models
 {
-    internal class MemberRepository : IMemberRepository, IDisposable
+    public class MemberRepository : IMemberRepository, IDisposable
     {
         private IDbTransaction Transaction { get; set; }
         private IDbConnection conn;
@@ -101,6 +100,24 @@ namespace BowlingWeb.Filters
             memberList.Add(member1);
 
             return memberList;
+        }
+        // 上傳檔案
+        public class FiledUploaded
+        {
+            public FiledUploaded(HttpPostedFileBase file, string serverPath)
+            {
+                HashedName = System.Web.Helpers.Crypto.SHA256(file.FileName);
+                FileName = file.FileName;
+                FileSize = file.ContentLength;
+                ServerPath = Path.Combine(serverPath + file.FileName);
+                Extension = Path.GetExtension(file.FileName);
+            }
+
+            public string FileName { get; set; }
+            public string HashedName { get; set; }
+            public string ServerPath { get; set; }
+            public int FileSize { get; set; }
+            public string Extension { get; set; }
         }
         // 個人紀錄
         public Member GetMember(string account)
