@@ -34,8 +34,8 @@ namespace BowlingWeb.Controllers
         {
             return View();
         }
-        // 讀取資料
-        public ActionResult Read()
+        // 上傳資料
+        public ActionResult Upload()
         {
             return View();
         }
@@ -53,10 +53,6 @@ namespace BowlingWeb.Controllers
         public ActionResult Record()
         {
             @Session["Account"] = "Donald";
-            return View();
-        }
-        public ActionResult Upload()
-        {
             return View();
         }
         // 統計圖表
@@ -84,11 +80,11 @@ namespace BowlingWeb.Controllers
 
             return Json(ret);
         }
-        // 讀取資料
+        // 上傳檔案
         [HttpPost]
-        public JsonResult ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
+        public ActionResult Upload(HttpPostedFileBase[] files)
         {
-            var ret = _service.ReadData(excelFile, callback);
+            var ret = _service.Upload(files);
             return Json(ret);
         }
         // 個人紀錄
@@ -98,29 +94,6 @@ namespace BowlingWeb.Controllers
             account = @Session["Account"].ToString();
             var ret = _service.GetMember(account);
             return Json(ret);
-        }
-        // 上傳檔案
-        [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase[] files)
-        {
-            // Check If Upload Nothing
-            if (files[0] == null)
-            {
-                return RedirectToAction("Upload");
-            }
-
-            var fileUploads = new List<FiledUploaded> { };
-
-            foreach (var file in files)
-            {
-                var fileUpload =
-                  new FiledUploaded(file, Server.MapPath("~/Uploads/"));
-
-                file.SaveAs(fileUpload.ServerPath);
-                fileUploads.Add(fileUpload);
-            }
-
-            return View(fileUploads);
         }
         [HttpPost]
         public JsonResult GetAllMember()

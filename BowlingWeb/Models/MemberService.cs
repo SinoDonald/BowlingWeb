@@ -29,10 +29,10 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.Login(member);
             return ret;
         }
-        // 讀取資料
-        public List<Member> ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
+        // 上傳檔案
+        internal List<Member> Upload(HttpPostedFileBase[] files)
         {
-            var ret = _memberRepository.ReadData(excelFile, callback);
+            var ret = _memberRepository.Upload(files);
             return ret;
         }
         // 個人紀錄

@@ -336,7 +336,6 @@
     <Content Include="Scripts\vendor\jquery\jquery.min.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.min.js" />
-    <Content Include="Scripts\WebApp\Member\ReadCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RecordCtrl.js" />
     <Content Include="Scripts\WebApp\Member\LoginCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RegisterCtrl.js" />
@@ -369,7 +368,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Error\Unauthorized.cshtml" />
-    <Content Include="Views\Member\Read.cshtml" />
     <Content Include="Views\Member\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>

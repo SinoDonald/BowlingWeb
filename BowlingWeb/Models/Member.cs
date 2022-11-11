@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,24 @@ namespace BowlingWeb.Models
         public string Skill { get; set; }
         public string Scores { get; set; }
         public List<SkillScores> SkillScores = new List<SkillScores>();
+    }
+    // 上傳檔案
+    public class FiledUploaded
+    {
+        public FiledUploaded(HttpPostedFileBase file, string serverPath)
+        {
+            HashedName = System.Web.Helpers.Crypto.SHA256(file.FileName);
+            FileName = file.FileName;
+            FileSize = file.ContentLength;
+            ServerPath = Path.Combine(serverPath + file.FileName);
+            Extension = Path.GetExtension(file.FileName);
+        }
+
+        public string FileName { get; set; }
+        public string HashedName { get; set; }
+        public string ServerPath { get; set; }
+        public int FileSize { get; set; }
+        public string Extension { get; set; }
     }
     public class ReadExcel
     {

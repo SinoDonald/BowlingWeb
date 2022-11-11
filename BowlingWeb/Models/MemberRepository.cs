@@ -31,15 +31,15 @@ namespace BowlingWeb.Models
 
             return ret;
         }
-        // 讀取資料
-        public List<Member> ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
+        // 上傳檔案
+        public List<Member> Upload(HttpPostedFileBase[] files)
         {
             List<Member> memberList = new List<Member>();
             try
             {
-                if (excelFile == null || excelFile.First() == null) throw new ApplicationException("未選取檔案或檔案上傳失敗");
-                if (excelFile.Count() != 1) throw new ApplicationException("請上傳單一檔案");
-                var file = excelFile.First();
+                if (files == null || files.First() == null) throw new ApplicationException("未選取檔案或檔案上傳失敗");
+                if (files.Count() != 1) throw new ApplicationException("請上傳單一檔案");
+                var file = files.First();
                 if (Path.GetExtension(file.FileName) != ".xlsx") throw new ApplicationException("請使用Excel 2007(.xlsx)格式");
                 var stream = file.InputStream;
                 XLWorkbook wb = new XLWorkbook(stream);
@@ -47,15 +47,6 @@ namespace BowlingWeb.Models
                 {
                     throw new ApplicationException("Excel檔包含多個工作表");
                 }
-                var csv =
-                    string.Join("\n",
-                        wb.Worksheets.First().RowsUsed().Select(row =>
-                            string.Join("\t",
-                                row.Cells(1, row.LastCellUsed(false).Address.ColumnNumber)
-                                .Select(cell => cell.GetValue<string>()).ToArray()
-                            )).ToArray());
-                //return Content($@"<script>{callback}({JsonConvert.SerializeObject(csv)});</script>", "text/html");
-
                 // 讀取第一個 Sheet
                 IXLWorksheet worksheet = wb.Worksheets.Worksheet(1);
                 // 定義資料起始/結束 Cell
@@ -68,7 +59,7 @@ namespace BowlingWeb.Models
                 //讀取資料
                 int columnCount = worksheet.Columns().Count();
                 int rowCount = worksheet.Rows().Count();
-                for(int i = 3; i < columnCount; i++)
+                for (int i = 3; i < columnCount; i++)
                 {
                     Member member = new Member();
                     member.Name = table.Cell(1, i).Value.ToString();
@@ -95,29 +86,7 @@ namespace BowlingWeb.Models
                 //return Content($"<script>alert({JsonConvert.SerializeObject(ex.Message)})</script>", "text/html");
             }
 
-            Member member1 = new Member();
-            member1.Name = "TEST";
-            memberList.Add(member1);
-
             return memberList;
-        }
-        // 上傳檔案
-        public class FiledUploaded
-        {
-            public FiledUploaded(HttpPostedFileBase file, string serverPath)
-            {
-                HashedName = System.Web.Helpers.Crypto.SHA256(file.FileName);
-                FileName = file.FileName;
-                FileSize = file.ContentLength;
-                ServerPath = Path.Combine(serverPath + file.FileName);
-                Extension = Path.GetExtension(file.FileName);
-            }
-
-            public string FileName { get; set; }
-            public string HashedName { get; set; }
-            public string ServerPath { get; set; }
-            public int FileSize { get; set; }
-            public string Extension { get; set; }
         }
         // 個人紀錄
         public Member GetMember(string account)

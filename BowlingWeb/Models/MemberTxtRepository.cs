@@ -70,13 +70,11 @@ namespace BowlingWeb.Models
 
             return userInfo;
         }
-
         public void Dispose()
         {
             return;
         }
-
-        public List<Member> ReadData(IEnumerable<HttpPostedFileBase> excelFile, string callback)
+        public List<Member> Upload(HttpPostedFileBase[] files)
         {
             throw new NotImplementedException();
         }
