@@ -35,7 +35,7 @@ app.controller('UpdateCtrl', ['$scope', '$window', 'appService', '$rootScope', f
 
     // 儲存檔案或寄送
     $scope.Update = function () {
-        appService.Upload($scope.files)
+        appService.Upload($scope.data)
             .then(function (ret) {
                 $window.location.href = 'Home/Index';
             });

@@ -84,6 +84,7 @@ namespace BowlingWeb.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase[] files)
         {
+            @Session["files"] = files;
             var ret = _service.Upload(files);
             return Json(ret);
         }

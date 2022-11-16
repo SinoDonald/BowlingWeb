@@ -7,27 +7,6 @@
 <h1>上傳檔案</h1>
 <h1>上傳檔案</h1>
 
-<div ng-controller="UpdateCtrl" class="container" style="margin-top: 60px">
-    <div class="row">
-            <h4>{{Member.Name}}</h4>
-            <br />
-            <div class="col" ng-repeat="skillScores in Member.SkillScores">
-                <h4>{{skillScores.Skill}}</h4>
-                <div ng-repeat="scores in skillScores.Scores track by $index">
-                    <h6>{{scores}}</h6>
-                </div>
-            </div>
-        </div>
-    <div class="mb-1">
-        <label for="formFile" class="form-label">上傳檔案</label>
-        @Html.TextBox("files", "", new { type = "file", multiple = "multiple", @class = "d-block" })
-        <br />
-    </div>
-    <div class="panel-footer">
-        <button type="button" ng-click="Update(files)" class="btn btn-primary">上傳</button>
-    </div>
-</div>
-
 @using (Html.BeginForm("Upload", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="mb-1">
@@ -42,28 +21,56 @@
     </div>
 }
 
-@*@if (Context.Request.HttpMethod == "POST")
-{
-    <div class="row mb-5">
-        @foreach (var file in Model)
+<div ng-controller="UpdateCtrl" class="container" style="margin-top: 60px">
+
+    @*@if (Context.Request.HttpMethod == "POST")
         {
-            <div class="col-4 d-flex mb-3">
-                <div class="card">
-                    <div style="overflow: hidden; height: 200px">
-                        <img class="card-img-top" src="~/uploads/@file.FileName">
+            <div class="row mb-5">
+                @foreach (var file in Model)
+                {
+                    <div class="col-4 d-flex mb-3">
+                        <div class="card">
+                            <div style="overflow: hidden; height: 200px">
+                                <img class="card-img-top" src="~/uploads/@file.FileName">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@file.FileName</h5>
+                                <p class="card-text">
+                                    @(file.FileSize / 1024) KB
+                                </p>
+                                <a href="#" class="btn btn-outline-danger">Like</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@file.FileName</h5>
-                        <p class="card-text">
-                            @(file.FileSize / 1024) KB
-                        </p>
-                        <a href="#" class="btn btn-outline-danger">Like</a>
-                    </div>
-                </div>
+                }
             </div>
-        }
+        }*@
+
+    <div class="row">
+        <h4>{{Member.Name}}</h4>
+        <br />
+        <div class="col" ng-repeat="skillScores in Member.SkillScores">
+            <h4>{{skillScores.Skill}}</h4>
+            <div ng-repeat="scores in skillScores.Scores track by $index">
+                <h6>{{scores}}</h6>
+            </div>
+        </div>
     </div>
-}*@
+
+    @*<div class="mb-1">
+            <label for="formFile" class="form-label">上傳檔案</label>
+            @Html.TextBox("files", "", new { type = "file", multiple = "multiple", @class = "d-block" })
+            <br />
+        </div>
+        <div class="panel-footer">
+            <button type="button" ng-click="Update(files)" class="btn btn-primary">上傳</button>
+        </div>*@
+
+    <div class="panel-footer">
+        <button type="button" ng-click="Update()" class="btn btn-primary">Show</button>
+    </div>
+
+</div>
 
 @section Scripts {
     <script src="~/Scripts/WebApp/Member/UpdateCtrl.js"></script>
