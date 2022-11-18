@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace BowlingWeb.Models
@@ -59,7 +60,7 @@ namespace BowlingWeb.Models
                 //讀取資料
                 int columnCount = worksheet.Columns().Count();
                 int rowCount = worksheet.Rows().Count();
-                for (int i = 3; i < columnCount; i++)
+                for (int i = 3; i <= columnCount; i++)
                 {
                     Member member = new Member();
                     member.Name = table.Cell(1, i).Value.ToString();
@@ -67,14 +68,45 @@ namespace BowlingWeb.Models
                     string scores = string.Empty;
                     for (int j = 2; j < rowCount; j++)
                     {
-                        if (table.Cell(j, 2).Value.ToString() != "")
+                        // 先確認有分數, 才紀錄
+                        if(table.Cell(j, i).Value.ToString() != "-")
                         {
-                            DateTime dateTime = Convert.ToDateTime(table.Cell(j, 2).Value.ToString());
-                            date = dateTime.ToString("yyyy/MM/dd");
-                            scores += date + ":";
+                            if (table.Cell(j, 2).Value.ToString() != "")
+                            {
+                                DateTime dateTime = Convert.ToDateTime(table.Cell(j, 2).Value.ToString());
+                                date = dateTime.ToString("yyyy/MM/dd");
+                                if(scores.Length > 0)
+                                {
+                                    scores = scores.Remove(scores.Length - 1, 1) + ";";
+                                }
+                                scores += date + ":";
+                            }
+                            if(table.Cell(j, i).Value.ToString() != "")
+                            {
+                                // 讀取scores目前最後紀錄的日期
+
+                                scores += table.Cell(j, i).Value.ToString() + ",";
+                            }
                         }
-                        scores += table.Cell(j, i).Value.ToString() + ",";
                     }
+                    scores = scores.Remove(scores.Length - 1, 1) + ";";
+
+                    //宣告 Regex 忽略大小寫
+                    string a = "2022/04/11";
+                    string pattern = "/^(((?:19|20)[0-9]{2})[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01]))*$/";
+                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                    //將比對後集合傳給 MatchCollection 
+                    MatchCollection matches = regex.Matches(a);
+                    int index = 0;
+                    // 一一取出 MatchCollection 內容
+                    foreach (Match match in matches)
+                    {
+                        // 將 Match 內所有值的集合傳給 GroupCollection groups
+                        GroupCollection groups = match.Groups;
+                        // 印出 Group 內 word 值
+                        Console.WriteLine(++index + ": " + groups["word"].Value.Trim());
+                    }
+
                     member.Scores = scores;
                     memberList.Add(member);
                 }
