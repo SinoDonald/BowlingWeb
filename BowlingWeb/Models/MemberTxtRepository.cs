@@ -78,5 +78,10 @@ namespace BowlingWeb.Models
         {
             throw new NotImplementedException();
         }
+
+        public List<Member> ReadExcel(string filePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

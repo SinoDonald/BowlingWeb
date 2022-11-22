@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Dapper;
-//using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +8,6 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 
 namespace BowlingWeb.Models
@@ -68,44 +67,40 @@ namespace BowlingWeb.Models
                     string scores = string.Empty;
                     for (int j = 2; j < rowCount; j++)
                     {
+                        // 讀取日期
+                        if (table.Cell(j, 2).Value.ToString() != "")
+                        {
+                            DateTime dateTime = Convert.ToDateTime(table.Cell(j, 2).Value.ToString());
+                            date = dateTime.ToString("yyyy/MM/dd");
+                        }
                         // 先確認有分數, 才紀錄
-                        if(table.Cell(j, i).Value.ToString() != "-")
+                        if (table.Cell(j, i).Value.ToString() != "-")
                         {
                             if (table.Cell(j, 2).Value.ToString() != "")
                             {
-                                DateTime dateTime = Convert.ToDateTime(table.Cell(j, 2).Value.ToString());
-                                date = dateTime.ToString("yyyy/MM/dd");
                                 if(scores.Length > 0)
                                 {
                                     scores = scores.Remove(scores.Length - 1, 1) + ";";
                                 }
                                 scores += date + ":";
                             }
+                            else
+                            {
+                                // 搜尋scores裡是否已記錄了這個日期
+                                if(!scores.Contains(date + ":"))
+                                {
+                                    scores = scores.Remove(scores.Length - 1, 1) + ";";
+                                    scores += date + ":";
+                                }
+                            }
                             if(table.Cell(j, i).Value.ToString() != "")
                             {
                                 // 讀取scores目前最後紀錄的日期
-
                                 scores += table.Cell(j, i).Value.ToString() + ",";
                             }
                         }
                     }
                     scores = scores.Remove(scores.Length - 1, 1) + ";";
-
-                    //宣告 Regex 忽略大小寫
-                    string a = "2022/04/11";
-                    string pattern = "/^(((?:19|20)[0-9]{2})[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01]))*$/";
-                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                    //將比對後集合傳給 MatchCollection 
-                    MatchCollection matches = regex.Matches(a);
-                    int index = 0;
-                    // 一一取出 MatchCollection 內容
-                    foreach (Match match in matches)
-                    {
-                        // 將 Match 內所有值的集合傳給 GroupCollection groups
-                        GroupCollection groups = match.Groups;
-                        // 印出 Group 內 word 值
-                        Console.WriteLine(++index + ": " + groups["word"].Value.Trim());
-                    }
 
                     member.Scores = scores;
                     memberList.Add(member);
@@ -116,6 +111,70 @@ namespace BowlingWeb.Models
             catch (Exception)
             {
                 //return Content($"<script>alert({JsonConvert.SerializeObject(ex.Message)})</script>", "text/html");
+            }
+
+            return memberList;
+        }
+        // 讀取檔案
+        public List<Member> ReadExcel(string filePath)
+        {
+            List<Member> memberList = new List<Member>();
+            
+            // 檔案路徑
+            filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), $"Data.xlsx");
+            Application app = new Application();
+            Sheets sheets;
+            object oMissiong = System.Reflection.Missing.Value;
+            Workbook workbook = app.Workbooks.Open(filePath, oMissiong, oMissiong);
+            System.Data.DataTable dt = new System.Data.DataTable();
+            try
+            {
+                if (app == null) return null;
+                workbook = app.Workbooks.Open(filePath, oMissiong, oMissiong);
+                sheets = workbook.Worksheets;
+                //將資料讀入到DataTable中
+                Worksheet worksheet = (Worksheet)sheets.get_Item(1);//請取第一張表
+                if (worksheet == null) return null;
+                int iRowCount = worksheet.UsedRange.Rows.Count;
+                int iColCount = worksheet.UsedRange.Columns.Count;
+                //生成列頭
+                for (int i = 0; i < iColCount; i++)
+                {
+                    var name = "column" + i; 
+                    var txt = ((Range)worksheet.Cells[1, i + 1]).Text.ToString();
+                    if (!string.IsNullOrWhiteSpace(txt)) name = txt;
+                    while (dt.Columns.Contains(name)) name = name + "1";//重複行名稱會報錯。
+                    dt.Columns.Add(new DataColumn(name, typeof(string)));
+                }
+
+                //生成行資料
+                Range range;
+                int rowIdx = 1;
+                for (int iRow = rowIdx; iRow <= iRowCount; iRow++)
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int iCol = 1; iCol <= iColCount; iCol++)
+                    {
+                        range = (Range)worksheet.Cells[iRow, iCol];
+                        dr[iCol - 1] = (range.Value2 == null) ? "" : range.Text.ToString();
+                    }
+
+                    dt.Rows.Add(dr);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                workbook.Close(false, oMissiong);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+                workbook = null;
+                app.Workbooks.Close();
+                app.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
+                app = null;
             }
 
             return memberList;

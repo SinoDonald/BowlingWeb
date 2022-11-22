@@ -88,6 +88,13 @@ namespace BowlingWeb.Controllers
             var ret = _service.Upload(files);
             return Json(ret);
         }
+        // 讀取檔案
+        [HttpPost]
+        public ActionResult ReadExcel(string filePath)
+        {
+            var ret = _service.ReadExcel(filePath);
+            return Json(ret);
+        }
         // 個人紀錄
         [HttpPost]
         public JsonResult GetMember(string account)

@@ -17,6 +17,11 @@ app.service('appService', ['$http', function ($http) {
         return $http.post("Member/Upload", o);
     };
 
+    // 讀取檔案
+    this.ReadExcel = function (o) {
+        return $http.post("Member/ReadExcel", o);
+    };
+
     $(document).ready(function () {
         $('#files').change(function () {
 
@@ -29,27 +34,48 @@ app.service('appService', ['$http', function ($http) {
         })
     })
 
+    const fileUploader = document.querySelector('#file-uploader');
+
+    fileUploader.addEventListener('change', (e) => {
+        console.log(e.target.files); // get file object
+    });
+
+    $('#upload').on('click', function () {
+        var file_data = $('#blockimg').prop('files')[0];   //取得上傳檔案屬性
+        var form_data = new FormData();  //建構new FormData()
+        form_data.append('file', file_data);  //吧物件加到file後面
+
+        $.ajax({
+            url: 'upload.php',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,     //data只能指定單一物件                 
+            type: 'post',
+            success: function (data) {
+                $('#ajsxboxdhow').html(data);
+            }
+        });
+    });
+
 }]);
 
 app.controller('UpdateCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
     // 儲存檔案或寄送
     $scope.Update = function () {
-        appService.Upload($scope.data)
+        appService.Upload()
             .then(function (ret) {
                 $window.location.href = 'Home/Index';
             });
     };
 
-    //$scope.Member = [];
-
-    //// 取得個人紀錄
-    //appService.GetMember({})
-    //    .then(function (ret) {
-    //        $scope.Member = ret.data;
-    //    })
-    //    .catch(function (ret) {
-    //        alert('Error');
-    //    });
+    // 讀取Excel
+    $scope.ReadExcel = function () {
+        appService.ReadExcel()
+            .then(function (ret) {
+                $window.location.href = 'Home/Index';
+            });
+    };
 
 }]);

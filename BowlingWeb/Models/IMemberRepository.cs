@@ -11,5 +11,6 @@ namespace BowlingWeb.Models
         List<Member> GetAll();
         void Dispose();
         List<Member> Upload(HttpPostedFileBase[] files);
+        List<Member> ReadExcel(string filePath);
     }
 }

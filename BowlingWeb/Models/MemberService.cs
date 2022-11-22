@@ -35,6 +35,12 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.Upload(files);
             return ret;
         }
+        // 讀取檔案
+        internal List<Member> ReadExcel(string filePath)
+        {
+            var ret = _memberRepository.ReadExcel(filePath);
+            return ret;
+        }
         // 個人紀錄
         public Member GetMember(string account)
         {
