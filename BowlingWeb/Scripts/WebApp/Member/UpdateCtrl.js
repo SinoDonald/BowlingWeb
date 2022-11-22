@@ -72,10 +72,13 @@ app.controller('UpdateCtrl', ['$scope', '$window', 'appService', '$rootScope', f
 
     // 讀取Excel
     $scope.ReadExcel = function () {
-        appService.ReadExcel()
+        appService.ReadExcel({})
             .then(function (ret) {
-                $window.location.href = 'Home/Index';
+                $scope.ReadExcel = ret.data;
+            })
+            .catch(function (ret) {
+                alert('Error');
             });
     };
-
+    
 }]);

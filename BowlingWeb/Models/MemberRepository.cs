@@ -135,47 +135,80 @@ namespace BowlingWeb.Models
                 //將資料讀入到DataTable中
                 Worksheet worksheet = (Worksheet)sheets.get_Item(1);//請取第一張表
                 if (worksheet == null) return null;
-                int iRowCount = worksheet.UsedRange.Rows.Count;
-                int iColCount = worksheet.UsedRange.Columns.Count;
-                //生成列頭
-                for (int i = 0; i < iColCount; i++)
-                {
-                    var name = "column" + i; 
-                    var txt = ((Range)worksheet.Cells[1, i + 1]).Text.ToString();
-                    if (!string.IsNullOrWhiteSpace(txt)) name = txt;
-                    while (dt.Columns.Contains(name)) name = name + "1";//重複行名稱會報錯。
-                    dt.Columns.Add(new DataColumn(name, typeof(string)));
-                }
+                int rowCount = worksheet.UsedRange.Rows.Count;
+                int columnCount = worksheet.UsedRange.Columns.Count;
 
-                //生成行資料
-                Range range;
-                int rowIdx = 1;
-                for (int iRow = rowIdx; iRow <= iRowCount; iRow++)
+                for (int i = 3; i <= columnCount; i++)
                 {
-                    DataRow dr = dt.NewRow();
-                    for (int iCol = 1; iCol <= iColCount; iCol++)
+                    Member member = new Member();
+                    member.Name = worksheet.Cells[1, i].Value.ToString();
+                    string date = string.Empty;
+                    string scores = string.Empty;
+                    for (int j = 2; j < rowCount; j++)
                     {
-                        range = (Range)worksheet.Cells[iRow, iCol];
-                        dr[iCol - 1] = (range.Value2 == null) ? "" : range.Text.ToString();
+                        // 讀取日期
+                        bool dateValue = false;
+                        try
+                        {
+                            if (worksheet.Cells[j, 2].Value.ToString() != "")
+                            {
+                                dateValue = true;
+                                DateTime dateTime = Convert.ToDateTime(worksheet.Cells[j, 2].Value.ToString());
+                                date = dateTime.ToString("yyyy/MM/dd");
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            dateValue = false;
+                            string error = ex.Message + "\n" + ex.ToString();
+                        }
+                        // 先確認有分數, 才紀錄
+                        if (worksheet.Cells[j, i].Value.ToString() != "-")
+                        {
+                            if (dateValue == true)
+                            {
+                                if (scores.Length > 0)
+                                {
+                                    scores = scores.Remove(scores.Length - 1, 1) + ";";
+                                }
+                                scores += date + ":";
+                            }
+                            else
+                            {
+                                // 搜尋scores裡是否已記錄了這個日期
+                                if (!scores.Contains(date + ":"))
+                                {
+                                    scores = scores.Remove(scores.Length - 1, 1) + ";";
+                                    scores += date + ":";
+                                }
+                            }
+                            if (worksheet.Cells[j, i].Value.ToString() != "")
+                            {
+                                // 讀取scores目前最後紀錄的日期
+                                scores += worksheet.Cells[j, i].Value.ToString() + ",";
+                            }
+                        }
                     }
+                    scores = scores.Remove(scores.Length - 1, 1) + ";";
 
-                    dt.Rows.Add(dr);
+                    member.Scores = scores;
+                    memberList.Add(member);
                 }
             }
             catch
             {
-                return null;
+                //return null;
             }
-            finally
-            {
-                workbook.Close(false, oMissiong);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
-                workbook = null;
-                app.Workbooks.Close();
-                app.Quit();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
-                app = null;
-            }
+            //finally
+            //{
+            //    workbook.Close(false, oMissiong);
+            //    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+            //    workbook = null;
+            //    app.Workbooks.Close();
+            //    app.Quit();
+            //    System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
+            //    app = null;
+            //}
 
             return memberList;
         }
