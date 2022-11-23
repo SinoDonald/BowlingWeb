@@ -34,33 +34,9 @@ app.service('appService', ['$http', function ($http) {
         })
     })
 
-    const fileUploader = document.querySelector('#file-uploader');
-
-    fileUploader.addEventListener('change', (e) => {
-        console.log(e.target.files); // get file object
-    });
-
-    $('#upload').on('click', function () {
-        var file_data = $('#blockimg').prop('files')[0];   //取得上傳檔案屬性
-        var form_data = new FormData();  //建構new FormData()
-        form_data.append('file', file_data);  //吧物件加到file後面
-
-        $.ajax({
-            url: 'upload.php',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,     //data只能指定單一物件                 
-            type: 'post',
-            success: function (data) {
-                $('#ajsxboxdhow').html(data);
-            }
-        });
-    });
-
 }]);
 
-app.controller('UpdateCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
+app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
     // 儲存檔案或寄送
     $scope.Update = function () {
@@ -80,5 +56,5 @@ app.controller('UpdateCtrl', ['$scope', '$window', 'appService', '$rootScope', f
                 alert('Error');
             });
     };
-    
+
 }]);

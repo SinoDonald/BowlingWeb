@@ -341,7 +341,7 @@
     <Content Include="Scripts\vendor\jquery\jquery.min.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.min.js" />
-    <Content Include="Scripts\WebApp\Member\UpdateCtrl.js" />
+    <Content Include="Scripts\WebApp\Member\UploadCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RecordCtrl.js" />
     <Content Include="Scripts\WebApp\Member\LoginCtrl.js" />
     <Content Include="Scripts\WebApp\Member\RegisterCtrl.js" />
