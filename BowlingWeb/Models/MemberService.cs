@@ -35,8 +35,8 @@ namespace BowlingWeb.Models
         [HttpPost]
         public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
         {
-            Dictionary<string, object> jo = _memberRepository.UpdateFileInfo(file);
-            return jo;
+            Dictionary<string, object> ret = _memberRepository.UpdateFileInfo(file);
+            return ret;
         }
         // 上傳單一檔案
         internal List<Member> Upload(HttpPostedFileBase file)

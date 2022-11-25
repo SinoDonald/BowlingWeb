@@ -13,11 +13,6 @@
 
 <div ng-controller="UploadCtrl" class="container" style="margin-top: 60px">
 
-    @*<input type="file" id="file-uploader" data-target="file-uploader" accept="xlsx/*" multiple="multiple" />
-        <div class="panel-footer">
-            <button type="button" ng-click="ReadExcel()" class="btn btn-primary">確定</button>
-        </div>*@
-
     <form id="UploadForm" action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
         <label for="file">Filename:</label>
         <input type="file" name="file" id="files" />
@@ -25,6 +20,11 @@
         <input type="submit" id="uploadBtn" disabled />
         <br />
     </form>
+
+    @*<input type="file" id="file-uploader" data-target="file-uploader" accept="xlsx/*" multiple="multiple" />
+    <div class="panel-footer">
+        <button type="button" ng-click="Upload()" class="btn btn-primary">確定</button>
+    </div>*@
 
     <div class="row">
         <div class="col-sm-3" ng-repeat="item in ReadExcel">

@@ -1,22 +1,7 @@
-﻿using BowlingWeb.Filters;
-using BowlingWeb.Models;
-using ClosedXML.Excel;
-using Newtonsoft.Json;
-using System;
+﻿using BowlingWeb.Models;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.Common;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using System.Data.SQLite;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using static BowlingWeb.Models.MemberRepository;
 
 namespace BowlingWeb.Controllers
 {
@@ -84,8 +69,8 @@ namespace BowlingWeb.Controllers
         [HttpPost]
         public ActionResult UpdateFileInfo(HttpPostedFileBase file)
         {
-            Dictionary<string, object> jo = _service.UpdateFileInfo(file);
-            return Json(jo);
+            Dictionary<string, object> ret = _service.UpdateFileInfo(file);
+            return Json(ret);
         }
         // 上傳單一檔案
         [HttpPost]

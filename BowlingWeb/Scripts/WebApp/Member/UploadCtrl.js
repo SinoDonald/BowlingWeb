@@ -27,9 +27,10 @@ app.service('appService', ['$http', function ($http) {
 app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
     // 儲存檔案或寄送
-    $scope.Update = function () {
+    $scope.Upload = function (ret) {
         appService.Upload()
             .then(function (ret) {
+                $scope.ReadExcel = ret.data;
                 $window.location.href = 'Home/Index';
             });
     };
@@ -64,6 +65,7 @@ app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', f
             iframe: true,
             dataType: "json",
             success: function (result) {
+                //$scope.ReadExcel = result;
                 $("#UploadForm").resetForm();
                 if (result.success) {
                     toastr.success(result.message, 'Success Message')
