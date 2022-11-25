@@ -70,18 +70,24 @@ namespace BowlingWeb.Models
 
             return userInfo;
         }
-        public void Dispose()
-        {
-            return;
-        }
-        public List<Member> Upload(HttpPostedFileBase[] files)
+        // 上傳檔案資訊
+        public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
         {
             throw new NotImplementedException();
         }
-
+        // 上傳單一檔案
+        public List<Member> Upload(HttpPostedFileBase file)
+        {
+            throw new NotImplementedException();
+        }
+        // 讀取檔案
         public List<Member> ReadExcel(string filePath)
         {
             throw new NotImplementedException();
+        }
+        public void Dispose()
+        {
+            return;
         }
     }
 }

@@ -80,64 +80,20 @@ namespace BowlingWeb.Controllers
 
             return Json(ret);
         }
-        // 上傳檔案
+        // 上傳檔案資訊
         [HttpPost]
-        public JsonResult Upload(HttpPostedFileBase file)
+        public ActionResult UpdateFileInfo(HttpPostedFileBase file)
         {
-            //if (file != null)
-            //{
-            //    if (file.ContentLength > 0)
-            //    {
-            //        var fileName = Path.GetFileName(file.FileName);
-            //        var path = Path.Combine(Server.MapPath("~/FileUploads"), fileName);
-            //        file.SaveAs(path);
-            //    }
-            //}
-
-            //return RedirectToAction("Upload");
-            Dictionary<string, object> jo = new Dictionary<string, object>();
-
-            if (file == null)
-            {
-                jo.Add("success", false);
-                jo.Add("message", "file upload error.");
-            }
-            else
-            {
-                if (file.ContentLength > 0 && file.ContentLength < (1 * 1024 * 1024))
-                {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/FileUploads"), fileName);
-                    file.SaveAs(path);
-
-                    jo.Add("success", true);
-                    jo.Add("message", file.FileName);
-                    jo.Add("ContentLenght", file.ContentLength);
-                }
-                else
-                {
-                    if (file.ContentLength <= 0)
-                    {
-                        jo.Add("success", false);
-                        jo.Add("message", "請上傳正確的檔案.");
-                    }
-                    else if (file.ContentLength > (1 * 1024 * 1024))
-                    {
-                        jo.Add("success", false);
-                        jo.Add("message", "上傳檔案大小不可超過 1MB.");
-                    }
-                }
-            }
+            Dictionary<string, object> jo = _service.UpdateFileInfo(file);
             return Json(jo);
         }
-        //// 上傳檔案
-        //[HttpPost]
-        //public ActionResult Upload(HttpPostedFileBase[] files)
-        //{
-        //    @Session["files"] = files;
-        //    var ret = _service.Upload(files);
-        //    return Json(ret);
-        //}
+        // 上傳單一檔案
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            var ret = _service.Upload(file);
+            return Json(ret);
+        }
         // 讀取檔案
         [HttpPost]
         public ActionResult ReadExcel(string filePath)

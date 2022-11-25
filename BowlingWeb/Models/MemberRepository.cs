@@ -32,14 +32,25 @@ namespace BowlingWeb.Models
             return ret;
         }
         // 上傳檔案
-        public List<Member> Upload(HttpPostedFileBase[] files)
+        public List<Member> Upload(HttpPostedFileBase file)
         {
             List<Member> memberList = new List<Member>();
             try
             {
-                if (files == null || files.First() == null) throw new ApplicationException("未選取檔案或檔案上傳失敗");
-                if (files.Count() != 1) throw new ApplicationException("請上傳單一檔案");
-                var file = files.First();
+                // 儲存檔案
+                if (file != null)
+                {
+                    if (file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
+                        file.SaveAs(path);
+                    }
+                }
+
+                //if (files == null || files.First() == null) throw new ApplicationException("未選取檔案或檔案上傳失敗");
+                //if (files.Count() != 1) throw new ApplicationException("請上傳單一檔案");
+                //var file = files.First();
                 if (Path.GetExtension(file.FileName) != ".xlsx") throw new ApplicationException("請使用Excel 2007(.xlsx)格式");
                 var stream = file.InputStream;
                 XLWorkbook wb = new XLWorkbook(stream);
@@ -114,6 +125,55 @@ namespace BowlingWeb.Models
             }
 
             return memberList;
+        }
+        // 上傳檔案資訊
+        public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                if (file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
+                    file.SaveAs(path);
+                }
+            }
+
+            Dictionary<string, object> jo = new Dictionary<string, object>();
+
+            if (file == null)
+            {
+                jo.Add("success", false);
+                jo.Add("message", "file upload error.");
+            }
+            else
+            {
+                if (file.ContentLength > 0 && file.ContentLength < (1 * 1024 * 1024))
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
+                    file.SaveAs(path);
+
+                    jo.Add("success", true);
+                    jo.Add("message", file.FileName);
+                    jo.Add("ContentLenght", file.ContentLength);
+                }
+                else
+                {
+                    if (file.ContentLength <= 0)
+                    {
+                        jo.Add("success", false);
+                        jo.Add("message", "請上傳正確的檔案.");
+                    }
+                    else if (file.ContentLength > (1 * 1024 * 1024))
+                    {
+                        jo.Add("success", false);
+                        jo.Add("message", "上傳檔案大小不可超過 1MB.");
+                    }
+                }
+            }
+
+            return jo;
         }
         // 讀取檔案
         public List<Member> ReadExcel(string filePath)

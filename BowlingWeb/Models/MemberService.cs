@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Services.Description;
 using System.Windows;
 
 namespace BowlingWeb.Models
@@ -29,10 +31,17 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.Login(member);
             return ret;
         }
-        // 上傳檔案
-        internal List<Member> Upload(HttpPostedFileBase[] files)
+        // 上傳檔案資訊
+        [HttpPost]
+        public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
         {
-            var ret = _memberRepository.Upload(files);
+            Dictionary<string, object> jo = _memberRepository.UpdateFileInfo(file);
+            return jo;
+        }
+        // 上傳單一檔案
+        internal List<Member> Upload(HttpPostedFileBase file)
+        {
+            var ret = _memberRepository.Upload(file);
             return ret;
         }
         // 讀取檔案

@@ -22,18 +22,6 @@ app.service('appService', ['$http', function ($http) {
         return $http.post("Member/ReadExcel", o);
     };
 
-    $(document).ready(function () {
-        $('#files').change(function () {
-
-            if ($('#files')[0].files.length > 0) {
-                $('#uploadBtn').removeAttr('disabled');
-            }
-            else {
-                $('#uploadBtn').attr('disabled', true)
-            }
-        })
-    })
-
 }]);
 
 app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
@@ -56,5 +44,39 @@ app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', f
                 alert('Error');
             });
     };
+
+    // 開啟關閉上傳按鈕
+    $(document).ready(function () {
+        $('#files').change(function () {
+
+            if ($('#files')[0].files.length > 0) {
+                $('#uploadBtn').removeAttr('disabled');
+            }
+            else {
+                $('#uploadBtn').attr('disabled', true)
+            }
+        })
+    })
+
+    // 檔案上傳成功或失敗訊息
+    $(function () {
+        $("#UploadForm").ajaxForm({
+            iframe: true,
+            dataType: "json",
+            success: function (result) {
+                $("#UploadForm").resetForm();
+                if (result.success) {
+                    toastr.success(result.message, 'Success Message')
+                }
+                else {
+                    toastr.error(result.message, 'Error Message')
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#UploadForm").resetForm();
+                toastr.error('檔案上傳錯誤.', 'Error Message')
+            }
+        });
+    });
 
 }]);
