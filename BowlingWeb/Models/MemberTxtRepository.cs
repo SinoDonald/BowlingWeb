@@ -49,13 +49,13 @@ namespace BowlingWeb.Models
                     {
                         try
                         {
-                            SkillScores skillScores = new SkillScores();
-                            skillScores.Skill = Path.GetFileNameWithoutExtension(skill.Name);
+                            DateScores skillScores = new DateScores();
+                            skillScores.Date = Path.GetFileNameWithoutExtension(skill.Name);
                             foreach (string score in File.ReadAllLines(skill.FullName))
                             {
                                 skillScores.Scores.Add(Convert.ToDouble(score));
                             }
-                            user.SkillScores.Add(skillScores);
+                            user.DateScores.Add(skillScores);
                         }
                         catch (Exception ex)
                         {

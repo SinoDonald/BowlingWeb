@@ -9,12 +9,11 @@
 <br />
 <br />
 <br />
-<hr />
 
 <div ng-controller="UploadCtrl" class="container" style="margin-top: 60px">
 
     <form id="UploadForm" action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
-        <label for="file">Filename:</label>
+        <label for="file">檔案名稱：</label>
         <input type="file" name="file" id="files" />
         <br />
         <input type="submit" id="uploadBtn" disabled />

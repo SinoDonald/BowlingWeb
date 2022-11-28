@@ -19,9 +19,13 @@ app.service('appService', ['$http', function ($http) {
 
 }]);
 
-app.controller('RecordCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
+app.controller('RecordCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', function ($scope, $window, appService, $rootScope, $location) {
 
-    $scope.Member = [];
+    $location.path('/PersonalRecord');
+
+}]);
+
+app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
     // 取得個人紀錄
     appService.GetMember({})

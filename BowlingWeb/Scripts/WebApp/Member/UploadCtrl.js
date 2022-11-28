@@ -65,7 +65,7 @@ app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', f
             iframe: true,
             dataType: "json",
             success: function (result) {
-                //$scope.ReadExcel = result;
+                $scope.ReadExcel = result;
                 $("#UploadForm").resetForm();
                 if (result.success) {
                     toastr.success(result.message, 'Success Message')

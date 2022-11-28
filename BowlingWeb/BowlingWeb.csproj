@@ -382,6 +382,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Error\Unauthorized.cshtml" />
     <Content Include="Views\Member\Upload.cshtml" />
+    <Content Include="Views\Member\PersonalRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

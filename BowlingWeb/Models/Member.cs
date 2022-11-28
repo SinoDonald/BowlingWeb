@@ -9,9 +9,9 @@ using System.Web;
 
 namespace BowlingWeb.Models
 {
-    public class SkillScores
+    public class DateScores
     {
-        public string Skill { get; set; }
+        public string Date { get; set; }
         public List<double> Scores = new List<double>();
     }
     public class Member
@@ -27,7 +27,7 @@ namespace BowlingWeb.Models
         public string Email { get;set; }
         public string Skill { get; set; }
         public string Scores { get; set; }
-        public List<SkillScores> SkillScores = new List<SkillScores>();
+        public List<DateScores> DateScores = new List<DateScores>();
     }
     // 上傳檔案
     public class FiledUploaded

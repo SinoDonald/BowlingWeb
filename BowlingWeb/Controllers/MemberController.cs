@@ -24,6 +24,21 @@ namespace BowlingWeb.Controllers
         {
             return View();
         }
+        // 所有紀錄(顯示所有User)
+        public ActionResult Record()
+        {
+            return View();
+        }
+        // 個人紀錄
+        public ActionResult PersonalRecord()
+        {
+            return PartialView();
+        }
+        // 統計圖表
+        public ActionResult Chart()
+        {
+            return View();
+        }
         // 註冊
         public ActionResult Register()
         {
@@ -31,17 +46,6 @@ namespace BowlingWeb.Controllers
         }
         // 登入
         public ActionResult Login()
-        {
-            return View();
-        }
-        // 個人紀錄
-        public ActionResult Record()
-        {
-            @Session["Account"] = "Donald";
-            return View();
-        }
-        // 統計圖表
-        public ActionResult Chart()
         {
             return View();
         }
@@ -62,7 +66,6 @@ namespace BowlingWeb.Controllers
             var ret = _service.Login(member);
             // 把登入者的資料傳進Session["Account"]做紀錄
             Session["Account"] = ret.Account;
-
             return Json(ret);
         }
         // 上傳檔案資訊

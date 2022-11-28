@@ -1,0 +1,21 @@
+﻿@*<h3>個人紀錄</h3>*@
+<br />
+<br />
+<br />
+
+<div ng-controller="PersonalRecordCtrl" class="container" style="margin-top: 60px">
+    <div class="row">
+        <h4>{{Member.Name}}</h4>
+        <br />
+        <div class="col" ng-repeat="dateScores in Member.DateScores">
+            <h4>{{dateScores.Date}}</h4>
+            <div ng-repeat="scores in dateScores.Scores track by $index">
+                <h6>{{scores}}</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/WebApp/Member/PersonalRecordCtrl.js"></script>
+}

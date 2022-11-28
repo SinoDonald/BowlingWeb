@@ -73,7 +73,7 @@ namespace BowlingWeb.Models
                 for (int i = 3; i <= columnCount; i++)
                 {
                     Member member = new Member();
-                    member.Name = table.Cell(1, i).Value.ToString();
+                    member.Account = table.Cell(1, i).Value.ToString();
                     string date = string.Empty;
                     string scores = string.Empty;
                     for (int j = 2; j < rowCount; j++)
@@ -117,7 +117,7 @@ namespace BowlingWeb.Models
                     memberList.Add(member);
                 }
 
-                return memberList;
+                EditToSQL(memberList); // 將List<Member>儲存到SQL
             }
             catch (Exception)
             {
@@ -125,6 +125,19 @@ namespace BowlingWeb.Models
             }
 
             return memberList;
+        }
+        // 更新SQL分數
+        private void EditToSQL(List<Member> memberList)
+        {
+            Member ret;
+            foreach(Member member in memberList)
+            {
+                // 將Excel資料儲存到SQL
+                //string sql = @"INSERT INTO Member VALUES (@Account, @Password, @Group, @Name, @Email, @Skill, @Scores)";
+                // 更新SQL分數
+                string sql = "UPDATE Member SET Scores = @Scores WHERE Account=@Account";
+                ret = conn.Query<Member>(sql, member).ToList().SingleOrDefault();
+            }
         }
         // 上傳檔案資訊
         public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
@@ -282,14 +295,26 @@ namespace BowlingWeb.Models
             ret = conn.Query<Member>(sql, new { account }).ToList().FirstOrDefault();
             foreach (Member member in members)
             {
-                SkillScores skillScores = new SkillScores();
-                skillScores.Skill = member.Skill;
-                string[] scores = member.Scores.Split(',');
-                foreach(string score in scores)
+                string[] dateScoreList = member.Scores.Split(';');
+                foreach(string item in dateScoreList)
                 {
-                    skillScores.Scores.Add(Convert.ToDouble(score));
+                    try
+                    {
+                        DateScores dateScores = new DateScores();
+                        string dateScore = item.Split(':')[1];
+                        dateScores.Date = item.Split(':')[0];
+                        string[] scores = dateScore.Split(',');
+                        foreach (string score in scores)
+                        {
+                            dateScores.Scores.Add(Convert.ToDouble(score));
+                        }
+                        ret.DateScores.Add(dateScores);
+                    }
+                    catch(Exception ex)
+                    {
+                        string error = ex.Message;
+                    }
                 }
-                ret.SkillScores.Add(skillScores);
             }
 
             return ret;
