@@ -31,7 +31,48 @@ namespace BowlingWeb.Models
 
             return ret;
         }
-        // 上傳檔案
+        // 上傳檔案資訊
+        public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
+        {
+            Dictionary<string, object> ret = new Dictionary<string, object>();
+
+            if (file == null)
+            {
+                ret.Add("success", false);
+                ret.Add("message", "file upload error.");
+            }
+            else
+            {
+                if (file.ContentLength > 0 && file.ContentLength < (1 * 1024 * 1024))
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
+                    file.SaveAs(path);
+
+                    Upload(file); // 上傳單一檔案
+
+                    ret.Add("success", true);
+                    ret.Add("message", file.FileName);
+                    ret.Add("ContentLenght", file.ContentLength);
+                }
+                else
+                {
+                    if (file.ContentLength <= 0)
+                    {
+                        ret.Add("success", false);
+                        ret.Add("message", "請上傳正確的檔案.");
+                    }
+                    else if (file.ContentLength > (1 * 1024 * 1024))
+                    {
+                        ret.Add("success", false);
+                        ret.Add("message", "上傳檔案大小不可超過 1MB.");
+                    }
+                }
+            }
+
+            return ret;
+        }
+        // 上傳單一檔案
         public List<Member> Upload(HttpPostedFileBase file)
         {
             List<Member> memberList = new List<Member>();
@@ -138,55 +179,6 @@ namespace BowlingWeb.Models
                 string sql = "UPDATE Member SET Scores = @Scores WHERE Account=@Account";
                 ret = conn.Query<Member>(sql, member).ToList().SingleOrDefault();
             }
-        }
-        // 上傳檔案資訊
-        public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
-        {
-            if (file != null)
-            {
-                if (file.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
-                    file.SaveAs(path);
-                }
-            }
-
-            Dictionary<string, object> ret = new Dictionary<string, object>();
-
-            if (file == null)
-            {
-                ret.Add("success", false);
-                ret.Add("message", "file upload error.");
-            }
-            else
-            {
-                if (file.ContentLength > 0 && file.ContentLength < (1 * 1024 * 1024))
-                {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/FileUploads"), fileName);
-                    file.SaveAs(path);
-
-                    ret.Add("success", true);
-                    ret.Add("message", file.FileName);
-                    ret.Add("ContentLenght", file.ContentLength);
-                }
-                else
-                {
-                    if (file.ContentLength <= 0)
-                    {
-                        ret.Add("success", false);
-                        ret.Add("message", "請上傳正確的檔案.");
-                    }
-                    else if (file.ContentLength > (1 * 1024 * 1024))
-                    {
-                        ret.Add("success", false);
-                        ret.Add("message", "上傳檔案大小不可超過 1MB.");
-                    }
-                }
-            }
-
-            return ret;
         }
         // 讀取檔案
         public List<Member> ReadExcel(string filePath)

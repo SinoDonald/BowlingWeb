@@ -27,7 +27,13 @@ namespace BowlingWeb.Controllers
         // 所有紀錄(顯示所有User)
         public ActionResult Record()
         {
+            @Session["Account"] = "Donald";
             return View();
+        }
+        // 所有人的紀錄
+        public ActionResult AllMemberRecord()
+        {
+            return PartialView();
         }
         // 個人紀錄
         public ActionResult PersonalRecord()
@@ -89,18 +95,23 @@ namespace BowlingWeb.Controllers
             var ret = _service.ReadExcel(filePath);
             return Json(ret);
         }
+        // 取得全部使用者
+        [HttpPost]
+        public JsonResult GetAllMember()
+        {
+            List<Member> ret = new List<Member>();
+            if(Session["Account"] is object)
+            {
+                ret = _service.GetAllMember();
+            }
+            return Json(ret);
+        }
         // 個人紀錄
         [HttpPost]
         public JsonResult GetMember(string account)
         {
-            account = @Session["Account"].ToString();
+            //account = @Session["Account"].ToString();
             var ret = _service.GetMember(account);
-            return Json(ret);
-        }
-        [HttpPost]
-        public JsonResult GetAllMember()
-        {
-            var ret = _service.GetAllMember();
             return Json(ret);
         }
     }
