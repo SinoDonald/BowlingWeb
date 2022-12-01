@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "RecordOption";
+}
+
+<div ng-controller="RecordOptionCtrl" class="container">
+    <div class="form-group d-flex justify-content-between">
+        <h3>{{Member.Name}}</h3>
+        <button type='reset' class='btn btn-danger' style="text-align:right" onclick='javascript:history.back();'> 回上頁 </button>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-primary" ng-click="PersonalRecord(member.Account)">統計圖表</button>
+        <button type="button" class="btn btn-warning" ng-click="PersonalRecord(member.Account)">分數列表</button>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/WebApp/Member/RecordOptionCtrl.js"></script>
+}

@@ -35,6 +35,11 @@ namespace BowlingWeb.Controllers
         {
             return PartialView();
         }
+        // 選擇要看的紀錄方式
+        public ActionResult RecordOption()
+        {
+            return PartialView();
+        }
         // 個人紀錄
         public ActionResult PersonalRecord()
         {

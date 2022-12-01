@@ -7,6 +7,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/AllMemberRecord',
             templateUrl: 'Member/AllMemberRecord'
         })
+        .state('RecordOption', {
+            url: '/RecordOption',
+            templateUrl: 'Member/RecordOption'
+        })
         .state('PersonalRecord', {
             url: '/PersonalRecord',
             templateUrl: 'Member/PersonalRecord'
@@ -70,10 +74,30 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
             alert('Error');
         });
 
-    // 查詢個人紀錄
-    $scope.PersonalRecord = function (data) {
-        $location.path('/PersonalRecord');
+     // 選擇要看的紀錄方式
+    $scope.RecordOption = function (data) {
+        $location.path('/RecordOption');
         myFactory.set(data)
+    }
+
+}]);
+
+app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
+
+    $scope.Account = myFactory.get().Account; // 選擇要評分的主管
+
+    // 取得個人紀錄
+    appService.GetMember({ account: $scope.Account })
+        .then(function (ret) {
+            $scope.Member = ret.data;
+        })
+        .catch(function (ret) {
+            alert('Error');
+        });
+
+    // 查詢個人紀錄
+    $scope.PersonalRecord = function () {
+        $location.path('/PersonalRecord');
     }
 
 }]);

@@ -402,6 +402,7 @@
     <Content Include="Views\Member\Upload.cshtml" />
     <Content Include="Views\Member\PersonalRecord.cshtml" />
     <Content Include="Views\Member\AllMemberRecord.cshtml" />
+    <Content Include="Views\Member\RecordOption.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,11 +3,11 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div ng-controller="AllMemberRecordCtrl" class="container" style="margin-top: 100px">
-    <div class="row">
+<div ng-controller="AllMemberRecordCtrl" class="container">
+    <div class="row justify-content-center">
         <div class="col-lg-2 col-sm-2" ng-repeat="member in GetAllMember">
             <img src="~/images/Member/{{member.Name}}.jpg" class="img-thumbnail" alt="{{member.Name}}">
-            <input type="submit" value={{member.Name}} ng-click="PersonalRecord(member.Account)" class="btn btn-warning" />
+            <input type="submit" value={{member.Name}} ng-click="RecordOption(member.Account)" class="btn btn-warning" style="text-align:center" />
         </div>
     </div>
 </div>
