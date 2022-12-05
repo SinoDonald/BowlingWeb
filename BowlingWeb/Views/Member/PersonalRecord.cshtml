@@ -4,7 +4,7 @@
 
 <div ng-controller="PersonalRecordCtrl" class="container" style="margin-top: 60px">
     <div class="form-group d-flex justify-content-between">
-        <h3>{{Member.Name}}</h3>
+        <h3 style="color:cornflowerblue;">{{Member.Name}}</h3>
         <button type='reset' class='btn btn-danger' style="text-align:right" onclick='javascript:history.back();'> 回上頁 </button>
     </div>
     <br />
@@ -16,10 +16,13 @@
                 <li class="list-group-item active">{{dateScores.Date}}</li>
                 <li ng-repeat="scores in dateScores.Scores track by $index">
                     <div ng-if="scores >= 200">
-                        <h6 class="list-group-item" style="color:red">{{scores}}</h6>
+                        <h6 class="list-group-item" style="color:crimson">{{scores}}</h6>
                     </div>
-                    <div ng-if="scores < 200">
+                    <div ng-if="scores >= 100 && scores < 200">
                         <h6 class="list-group-item">{{scores}}</h6>
+                    </div>
+                    <div ng-if="scores < 100">
+                        <h6 class="list-group-item" style="color:orange">{{scores}}</h6>
                     </div>
                 </li>
             </ul>

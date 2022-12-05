@@ -27,6 +27,9 @@ namespace BowlingWeb.Models
         public string Email { get;set; }
         public string Skill { get; set; }
         public string Scores { get; set; }
+        public string MaxScore { get; set; }
+        public string MinScore { get; set; }
+        public string AverageScore { get; set; }        
         public List<DateScores> DateScores = new List<DateScores>();
     }
 }

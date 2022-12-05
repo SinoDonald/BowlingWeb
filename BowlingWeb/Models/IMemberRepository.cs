@@ -9,6 +9,7 @@ namespace BowlingWeb.Models
         Member Create(Member member);
         // 登入
         Member Login(Member member);
+        // 個人紀錄
         Member GetMember(string account);
         List<Member> GetAll();
         // 上傳檔案資訊

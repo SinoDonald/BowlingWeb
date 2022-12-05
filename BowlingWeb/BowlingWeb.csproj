@@ -403,6 +403,7 @@
     <Content Include="Views\Member\PersonalRecord.cshtml" />
     <Content Include="Views\Member\AllMemberRecord.cshtml" />
     <Content Include="Views\Member\RecordOption.cshtml" />
+    <Content Include="Views\Member\ChartRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -424,7 +425,6 @@
     <Content Include="Views\Member\Login.cshtml" />
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\Record.cshtml" />
-    <Content Include="Views\Member\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

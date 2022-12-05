@@ -50,7 +50,7 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.ReadExcel(filePath);
             return ret;
         }
-        // 個人紀錄
+        // 統計圖表+個人紀錄
         public Member GetMember(string account)
         {
             var ret = _memberRepository.GetMember(account);

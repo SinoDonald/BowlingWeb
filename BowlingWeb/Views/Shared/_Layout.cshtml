@@ -52,8 +52,9 @@
                                     <li class="scroll-to-section">@Html.ActionLink("上傳檔案", "Upload", "Member")</li>
                                 }
                             }
-                            <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>
-                            @*<li class="scroll-to-section" ><a href="Member/Record">個人紀錄</a></li>*@
+                            @*<li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>*@
+                            <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member", null, new { id = "loadPartialActionLink" })</li>
+                            <div id="AJAXContainer"></div>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
                             @if (Session["Account"] == null)
                             {
@@ -94,8 +95,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-    <script src="~/Scripts/vendor/jquery/jquery.min.js"></script>
+        <script src="~/Scripts/vendor/jquery/jquery.min.js"></script>
     <script src="~/Scripts/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/js/owl-carousel.js"></script>
     <script src="~/Scripts/js/animation.js"></script>

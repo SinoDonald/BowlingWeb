@@ -11,6 +11,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/RecordOption',
             templateUrl: 'Member/RecordOption'
         })
+        .state('ChartRecord', {
+            url: '/ChartRecord',
+            templateUrl: 'Member/ChartRecord'
+        })
         .state('PersonalRecord', {
             url: '/PersonalRecord',
             templateUrl: 'Member/PersonalRecord'
@@ -30,10 +34,21 @@ app.service('appService', ['$http', function ($http) {
         return $http.post('Member/GetAllMember', o);
     };
 
-    // 取得個人紀錄
+    // 統計圖表+個人紀錄
     this.GetMember = function (o) {
         return $http.post("Member/GetMember", o);
     };
+
+    $('#loadPartialActionLink').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: '/Member/Record',
+            success: function (data, textStatus, jqXHR) {
+                $('#AJAXContainer').html(data);
+            }
+        });
+    });
 
 }]);
 
@@ -84,7 +99,7 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
 
 app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
-    $scope.Account = myFactory.get().Account; // 選擇要評分的主管
+    $scope.Account = myFactory.get().Account; // 選擇要評分的成員
 
     // 取得個人紀錄
     appService.GetMember({ account: $scope.Account })
@@ -95,16 +110,38 @@ app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootSco
             alert('Error');
         });
 
-    // 查詢個人紀錄
+    // 統計圖表
+    $scope.ChartRecord = function () {
+        $location.path('/ChartRecord');
+    }
+
+    // 分數列表
     $scope.PersonalRecord = function () {
         $location.path('/PersonalRecord');
     }
 
 }]);
 
+// 統計圖表
+app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
+
+    $scope.Account = myFactory.get().Account; // 選擇要評分的成員
+
+    // 取得個人紀錄
+    appService.GetMember({ account: $scope.Account })
+        .then(function (ret) {
+            $scope.Member = ret.data;
+        })
+        .catch(function (ret) {
+            alert('Error');
+        });
+
+}]);
+
+// 分數列表
 app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
 
-    $scope.Account = myFactory.get().Account; // 選擇要評分的主管
+    $scope.Account = myFactory.get().Account; // 選擇要評分的成員
 
     // 取得個人紀錄
     appService.GetMember({ account: $scope.Account })

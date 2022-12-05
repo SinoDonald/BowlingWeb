@@ -277,7 +277,7 @@ namespace BowlingWeb.Models
 
             return memberList;
         }
-        // 個人紀錄
+        // 統計圖表+個人紀錄
         public Member GetMember(string account)
         {
             Member ret;
@@ -287,6 +287,7 @@ namespace BowlingWeb.Models
             ret = conn.Query<Member>(sql, new { account }).ToList().FirstOrDefault();
             foreach (Member member in members)
             {
+                List<double> allScores = new List<double>();
                 string[] dateScoreList = member.Scores.Split(';');
                 foreach(string item in dateScoreList)
                 {
@@ -299,6 +300,7 @@ namespace BowlingWeb.Models
                         foreach (string score in scores)
                         {
                             dateScores.Scores.Add(Convert.ToDouble(score));
+                            allScores.Add(Convert.ToDouble(score)); // 記錄所有分數
                         }
                         ret.DateScores.Add(dateScores);
                     }
@@ -307,6 +309,14 @@ namespace BowlingWeb.Models
                         string error = ex.Message;
                     }
                 }
+
+                string maxScores = allScores.Max().ToString(); // 最高分
+                string minScores = allScores.Min().ToString(); // 最低分
+                string maxScoresDate = ret.DateScores.Where(x => x.Scores.Max().ToString().Equals(maxScores)).FirstOrDefault().Date; // 最高分日期
+                string minScoresDate = ret.DateScores.Where(x => x.Scores.Min().ToString().Equals(minScores)).FirstOrDefault().Date; // 最低分日期
+                ret.MaxScore = maxScoresDate + "：" + maxScores; // 最高分
+                ret.MinScore = minScoresDate + "：" + minScores; // 最低分
+                ret.AverageScore = Math.Round(allScores.Sum() / allScores.Count(), 2, MidpointRounding.AwayFromZero).ToString(); // 平均分數
             }
 
             return ret;

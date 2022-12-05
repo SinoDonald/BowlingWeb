@@ -40,15 +40,15 @@ namespace BowlingWeb.Controllers
         {
             return PartialView();
         }
+        // 統計圖表
+        public ActionResult ChartRecord()
+        {
+            return PartialView();
+        }
         // 個人紀錄
         public ActionResult PersonalRecord()
         {
             return PartialView();
-        }
-        // 統計圖表
-        public ActionResult Chart()
-        {
-            return View();
         }
         // 註冊
         public ActionResult Register()
@@ -111,7 +111,7 @@ namespace BowlingWeb.Controllers
             }
             return Json(ret);
         }
-        // 個人紀錄
+        // 統計圖表+個人紀錄
         [HttpPost]
         public JsonResult GetMember(string account)
         {

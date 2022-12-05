@@ -4,12 +4,16 @@
 }
 
 <div ng-controller="AllMemberRecordCtrl" class="container">
+    <br />
+    <br />
     <div class="row justify-content-center">
         <div class="col-lg-2 col-sm-2" ng-repeat="member in GetAllMember">
             <img src="~/images/Member/{{member.Name}}.jpg" class="img-thumbnail" alt="{{member.Name}}">
             <input type="submit" value={{member.Name}} ng-click="RecordOption(member.Account)" class="btn btn-warning" style="text-align:center" />
         </div>
     </div>
+    <br />
+    <br />
 </div>
 
 @section Scripts {
