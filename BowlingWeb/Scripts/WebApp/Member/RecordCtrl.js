@@ -39,17 +39,6 @@ app.service('appService', ['$http', function ($http) {
         return $http.post("Member/GetMember", o);
     };
 
-    $('#loadPartialActionLink').on('click', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            url: '/Member/Record',
-            success: function (data, textStatus, jqXHR) {
-                $('#AJAXContainer').html(data);
-            }
-        });
-    });
-
 }]);
 
 // 儲存參數

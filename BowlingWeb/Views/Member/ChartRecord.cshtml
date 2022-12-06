@@ -8,14 +8,13 @@
         <button type='reset' class='btn btn-danger' style="text-align:right" onclick='javascript:history.back();'> 回上頁 </button>
     </div>
     <br />
-    <br />
-    <br />
     <div class="row">
         <div class="form-group d-flex justify-content-between">
-            <h3>最高分：{{Member.MaxScore}}</h3>
-            <h3>最低分：{{Member.MinScore}}</h3>
-            <h3 style="color:crimson">平均分數：{{Member.AverageScore}}</h3>
+            <h4>最高分：{{Member.MaxScore}}分</h4>
+            <h4>最低分：{{Member.MinScore}}分</h4>
+            <h4>平均分數：{{Member.AverageScore}}分</h4>
         </div>
+        
         @*<div class="col" style="align-items:center" ng-repeat="dateScores in Member.DateScores">
 
         </div>*@

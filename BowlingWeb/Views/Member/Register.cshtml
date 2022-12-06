@@ -1,30 +1,23 @@
 ﻿
 @{
     ViewBag.Title = "Register";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div ng-controller="RegisterCtrl" class="container" style="margin-top: 60px">
     <br />
-    <div class="panel-body">
+    <div class="form-group d-flex justify-content-between">
         <div class="form-group">
             <label>帳號</label>
-            <input type="text" class="control-label col-md-2" ng-model="Member.Account">
+            <input type="text" class="form-control" ng-model="Member.Account">
             <br />
-        </div>
-        <div class="form-group">
             <label>密碼</label>
-            <input type="password" class="control-label col-md-2" ng-model="Member.Password">
+            <input type="password" class="form-control" ng-model="Member.Password">
             <br />
-        </div>
-        <div class="form-group">
             <label>姓名</label>
-            <input type="text" class="control-label col-md-2" ng-model="Member.Name">
+            <input type="text" class="form-control" ng-model="Member.Name">
             <br />
-        </div>
-        <div class="form-group">
             <label>EMail</label>
-            <input type="text" class="control-label col-md-2" ng-model="Member.Email">
+            <input type="text" class="form-control" ng-model="Member.Email">
             <br />
         </div>
     </div>

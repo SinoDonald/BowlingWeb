@@ -53,8 +53,7 @@
                                 }
                             }
                             @*<li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>*@
-                            <li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member", null, new { id = "loadPartialActionLink" })</li>
-                            <div id="AJAXContainer"></div>
+                            <li><a href="~/Member/Record#!AllMemberRecord" class="scroll-to-section">個人紀錄</a></li>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
                             @if (Session["Account"] == null)
                             {
@@ -86,7 +85,7 @@
                     <p>
                         © @DateTime.Now.Year 無聊滾球 版權所有 翻印必究。
 
-                        <br>Design: <a rel="nofollow" href="https://templatemo.com">Donald Lu</a>
+                        <br>Design: <a rel="nofollow" href="@Url.Content("~/")">Donald Lu</a>
                     </p>
                 </div>
             </div>
