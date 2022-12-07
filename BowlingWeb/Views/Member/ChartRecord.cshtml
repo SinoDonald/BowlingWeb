@@ -10,11 +10,11 @@
     <br />
     <div class="row">
         <div class="form-group d-flex justify-content-between">
+            <h4>總局數：{{Member.Games}}局</h4>
             <h4>最高分：{{Member.MaxScore}}分</h4>
             <h4>最低分：{{Member.MinScore}}分</h4>
             <h4>平均分數：{{Member.AverageScore}}分</h4>
         </div>
-        
         @*<div class="col" style="align-items:center" ng-repeat="dateScores in Member.DateScores">
 
         </div>*@
@@ -26,4 +26,5 @@
 
 @section Scripts {
     <script src="~/Scripts/WebApp/Member/ChartRecordCtrl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 }

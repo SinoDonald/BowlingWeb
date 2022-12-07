@@ -289,6 +289,7 @@ namespace BowlingWeb.Models
             {
                 List<double> allScores = new List<double>();
                 string[] dateScoreList = member.Scores.Split(';');
+                int games = 0;
                 foreach(string item in dateScoreList)
                 {
                     try
@@ -301,6 +302,7 @@ namespace BowlingWeb.Models
                         {
                             dateScores.Scores.Add(Convert.ToDouble(score));
                             allScores.Add(Convert.ToDouble(score)); // 記錄所有分數
+                            games++;
                         }
                         ret.DateScores.Add(dateScores);
                     }
@@ -310,6 +312,7 @@ namespace BowlingWeb.Models
                     }
                 }
 
+                ret.Games = games; // 局數
                 string maxScores = allScores.Max().ToString(); // 最高分
                 string minScores = allScores.Min().ToString(); // 最低分
                 string maxScoresDate = ret.DateScores.Where(x => x.Scores.Max().ToString().Equals(maxScores)).FirstOrDefault().Date; // 最高分日期
