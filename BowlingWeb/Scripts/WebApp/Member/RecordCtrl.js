@@ -110,27 +110,6 @@ app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootSco
     }
 
 }]);
-var optionName = ['Good', 'Gooood', 'Goooood'];
-// 統計圖表
-app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
-
-    $scope.Account = myFactory.get().Account; // 選擇要評分的成員
-
-    // 取得個人紀錄
-    appService.GetMember({ account: $scope.Account })
-        .then(function (ret) {
-            $scope.Member = ret.data;
-        })
-        .catch(function (ret) {
-            alert('Error');
-        });
-
-    // 統計圖表
-    appService.GetMember({ account: $scope.Account })
-        .then(function (ret) {
-            CreateChart(ret.data, optionName);
-        })
-}]);
 
 // 分數列表
 app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
@@ -148,6 +127,26 @@ app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootS
 
 }]);
 
+// 統計圖表
+app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
+
+    $scope.Account = myFactory.get().Account; // 選擇要評分的成員
+
+    // 取得個人紀錄
+    appService.GetMember({ account: $scope.Account })
+        .then(function (ret) {
+            $scope.Member = ret.data;
+        })
+        .catch(function (ret) {
+            alert('Error');
+        });
+
+    // 統計圖表
+    appService.GetMember({ account: $scope.Account })
+        .then(function (ret) {
+            CreateChart(ret.data, optionsName);
+        })
+}]);
 
 
 
@@ -155,6 +154,8 @@ app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootS
 
 
 
+
+var optionsName = ['Good', 'Gooood', 'Goooood'];
 var chartset = [];
 var chartdataset = [];
 var configset = [];
