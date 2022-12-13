@@ -28,6 +28,7 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-ui-router.min.js"></script>
     <script src="~/Scripts/angular-animate.min.js"></script>
+    <script src="~/Scripts/Chart.min.js"></script>
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -64,7 +65,7 @@
                                 <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink(Session["Account"].ToString(), "Login", "Member")</div></li>
                             }
                             @*<li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
-        <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
+                                <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -94,7 +95,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="~/Scripts/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/vendor/jquery/jquery.min.js"></script>
     <script src="~/Scripts/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/js/owl-carousel.js"></script>
     <script src="~/Scripts/js/animation.js"></script>
