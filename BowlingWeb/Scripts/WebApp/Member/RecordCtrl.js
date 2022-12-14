@@ -7,10 +7,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/AllMemberRecord',
             templateUrl: 'Member/AllMemberRecord'
         })
-        .state('RecordOption', {
-            url: '/RecordOption',
-            templateUrl: 'Member/RecordOption'
-        })
         .state('ChartRecord', {
             url: '/ChartRecord',
             templateUrl: 'Member/ChartRecord'
@@ -74,6 +70,7 @@ app.controller('RecordCtrl', ['$scope', '$window', 'appService', '$rootScope', '
 
 }]);
 
+// 顯示成員名單
 app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
     // 取得所有成員名單
@@ -91,7 +88,7 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
         appService.GetMember({ account: data })
             .then(function (ret) {
                 myFactory.set(ret.data)
-                $location.path('/RecordOption');
+                $location.path('/ChartRecord');
             })
             .catch(function (ret) {
                 alert('Error');
@@ -100,7 +97,8 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
 
 }]);
 
-app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
+// 統計圖表
+app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
     $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
@@ -108,25 +106,6 @@ app.controller('RecordOptionCtrl', ['$scope', '$window', 'appService', '$rootSco
     $scope.PersonalRecord = function () {
         $location.path('/PersonalRecord');
     }
-
-    // 統計圖表
-    $scope.ChartRecord = function () {
-        $location.path('/ChartRecord');
-    }
-
-}]);
-
-// 分數列表
-app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
-
-    $scope.Member = myFactory.get(); // 選擇要評分的成員資料
-
-}]);
-
-// 統計圖表
-app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
-
-    $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
     // 繪圖
     const ctx = document.getElementById('myChart');
@@ -148,5 +127,12 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
             }
         }
     });
+
+}]);
+
+// 分數列表
+app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', 'myFactory', function ($scope, $window, appService, $rootScope, myFactory) {
+
+    $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
 }]);

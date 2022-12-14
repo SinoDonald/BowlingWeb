@@ -35,11 +35,6 @@ namespace BowlingWeb.Controllers
         {
             return PartialView();
         }
-        // 選擇要看的紀錄方式
-        public ActionResult RecordOption()
-        {
-            return PartialView();
-        }
         // 統計圖表
         public ActionResult ChartRecord()
         {
@@ -115,7 +110,6 @@ namespace BowlingWeb.Controllers
         [HttpPost]
         public JsonResult GetMember(string account)
         {
-            //account = @Session["Account"].ToString();
             var ret = _service.GetMember(account);
             return Json(ret);
         }
