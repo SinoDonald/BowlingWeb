@@ -1,16 +1,15 @@
-﻿
+﻿@using BowlingWeb.Models;
+
 @{
     ViewBag.Title = "Login";
 }
 
-@*<h2>登入</h2>*@
-<br />
-<br />
-<br />
-<br />
-<br />
-
 <div ng-controller="LoginCtrl" class="row justify-content-md-center">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">登入</div>
@@ -32,5 +31,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/Scripts/WebApp/Member/LoginCtrl.js"></script>
+    <script src="@Url.Versioned("~/Scripts/WebApp/Member/LoginCtrl.js")"></script>
 }

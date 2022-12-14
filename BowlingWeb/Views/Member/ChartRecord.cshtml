@@ -1,4 +1,6 @@
-﻿@{
+﻿@using BowlingWeb.Models;
+
+@{
     ViewBag.Title = "ChartRecord";
 }
 
@@ -16,11 +18,14 @@
             <h4>平均分數：{{Member.AverageScore}}分</h4>
         </div>
     </div>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
     <br />
     <br />
     <br />
 </div>
 
-    @section Scripts {
-        <script src="~/Scripts/WebApp/Member/ChartRecordCtrl.js"></script>
-    }
+@section Scripts {
+    <script src="@Url.Versioned("~/Scripts/WebApp/Member/ChartRecordCtrl.js")"></script>
+}

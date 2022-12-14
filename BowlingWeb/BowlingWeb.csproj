@@ -192,6 +192,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Models\HtmlHelperExtensions.cs" />
     <Compile Include="Models\MemberRepository.cs" />
     <Compile Include="Filters\MyAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">

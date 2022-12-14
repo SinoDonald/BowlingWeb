@@ -1,4 +1,6 @@
-﻿@{
+﻿@using BowlingWeb.Models;
+
+@{
     ViewBag.Title = "Record";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,5 +10,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/Scripts/WebApp/Member/RecordCtrl.js"></script>
+    <script src="@Url.Versioned("~/Scripts/WebApp/Member/RecordCtrl.js")"></script>
 }
