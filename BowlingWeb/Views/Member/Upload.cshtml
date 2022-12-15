@@ -9,7 +9,6 @@
     <br />
     <br />
     <br />
-    <br />
     <form id="UploadForm" action="@Url.Action("UpdateFileInfo")" method="post" enctype="multipart/form-data">
         <label for="file">檔案名稱：</label>
         <input type="file" name="file" id="files" />
@@ -17,18 +16,9 @@
         <input type="submit" id="uploadBtn" disabled />
         <br />
     </form>
-
-    <div class="row">
-        <div class="col-sm-3" ng-repeat="item in ReadExcel">
-            <div class="card border-primary mb-3" style="max-width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{item.Name}}</h5>
-                    <p class="card-text">{{item.Name}}</p>
-                    <h6>{{item.Scores}}</h6>
-                </div>
-            </div>
-        </div>
-    </div>
+    <br />
+    <br />
+    <br />
 
 </div>
 

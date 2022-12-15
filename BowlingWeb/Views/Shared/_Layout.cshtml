@@ -51,6 +51,7 @@
                                 if (Session["Account"].ToString().Equals("Donald"))
                                 {
                                     <li class="scroll-to-section">@Html.ActionLink("上傳檔案", "Upload", "Member")</li>
+                                    <li class="scroll-to-section">@Html.ActionLink("下載檔案", "Download", "Member")</li>
                                 }
                             }
                             @*<li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>*@
@@ -65,7 +66,7 @@
                                 <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink(Session["Account"].ToString(), "Login", "Member")</div></li>
                             }
                             @*<li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
-                                <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
+        <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

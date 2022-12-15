@@ -1,0 +1,62 @@
+﻿<!--@using BowlingWeb.Models;
+
+@{
+    ViewBag.Title = "Download";
+}
+
+<div ng-controller="DownloadCtrl" class="container" style="margin-top: 60px">
+
+    <br />
+    <br />
+    <br />-->
+@*<form id="DownloadForm" action="@Url.Action("UpdateFileInfo")" method="post" enctype="multipart/form-data">
+        <label for="file">檔案名稱：</label>
+        <input type="file" name="file" id="files" />
+        <br />
+        <input type="submit" id="downloadBtn" disabled />
+        <br />
+    </form>*@
+<!--<input type="file" id="fileUpload" multiple>
+<button class="btn btn-success" id="btnSave" ng-click="Save()">儲存</button>
+
+
+<input type="hidden" id="hidAppPath" value="@Url.Content("~/")" />-->
+<!--應用程式根目錄路徑-->
+<!--<br />
+    <br />
+    <br />
+
+</div>
+
+@section Scripts {
+    <script src="@Url.Versioned("~/Scripts/WebApp/Member/DownloadCtrl.js")"></script>
+}-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+</head>
+<body>
+    <div ng-controller="DownloadCtrl" class="container" style="margin-top: 60px">
+        <h1>Mozilla is cool</h1>
+        <img src="images/firefox-icon.png" alt="The Firefox logo: a flaming fox surrounding the Earth.">
+
+        <p>At Mozilla, we’re a global community of</p>
+
+        <ul>
+            <!-- changed to list in the tutorial -->
+            <li>technologists</li>
+            <li>thinkers</li>
+            <li>builders</li>
+        </ul>
+
+        <p>working together to keep the Internet alive and accessible, so people worldwide can be informed contributors and creators of the Web. We believe this act of human collaboration across an open platform is essential to individual growth and our collective future.</p>
+
+        <p>Read the <a href="https://www.mozilla.org/en-US/about/manifesto/">Mozilla Manifesto</a> to learn even more about the values and principles that guide the pursuit of our mission.</p>
+    </div>
+</body>
+</html>
+
+<script src="@Url.Versioned("~/Scripts/WebApp/Member/DownloadCtrl.js")"></script>
