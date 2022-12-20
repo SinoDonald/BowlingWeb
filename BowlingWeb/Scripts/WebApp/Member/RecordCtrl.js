@@ -102,6 +102,26 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
 
     $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
+    // select year and month
+    $scope.months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    $scope.years = [];
+
+    const date = new Date();
+    const [month, year] = [date.getMonth(), date.getFullYear()];
+
+    for (let i = year; i !== 2019; i--) {
+        $scope.years.push(i.toString());
+    }
+
+    $scope.selectedYear = $scope.years[0];
+    $scope.selectedMonth = $scope.months[month];
+
+
+    $scope.data = [];
+
+    $scope.ctrl = {};
+    $scope.ctrl.datepicker = moment().add(-1, 'months').locale('zh-tw').format('YYYY-MM');
+
     // 分數列表
     $scope.PersonalRecord = function () {
         $location.path('/PersonalRecord');

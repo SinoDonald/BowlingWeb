@@ -16,6 +16,24 @@
         <input type="submit" id="uploadBtn" disabled />
         <br />
     </form>
+    <div class="input-group mb-3 w-25 p-3"
+         moment-picker="ctrl.datepicker"
+         format="YYYY-MM"
+         locale="zh-tw"
+         change="GetTasklogData()">
+        <span class="input-group-addon">
+        </span>
+        <div class="input-group-prepend">
+            <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
+        </div>
+        <input class="form-control"
+               placeholder="Select a date"
+               ng-model="ctrl.datepicker"
+               ng-model-options="{ updateOn: 'blur' }">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">請選擇年月份</span>
+        </div>
+    </div>
     <br />
     <br />
     <br />

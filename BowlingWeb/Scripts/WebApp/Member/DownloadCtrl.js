@@ -11,9 +11,6 @@ app.service('appService', ['$http', function ($http) {
 
 app.controller('DownloadCtrl', ['$scope', '$window', 'appService', '$rootScope', function ($scope, $window, appService, $rootScope) {
 
-    var myHeading = document.querySelector('h1');
-    myHeading.textContent = 'Hello world!';
-
     // 開啟關閉上傳按鈕
     $(document).ready(function () {
         $('#files').change(function () {
