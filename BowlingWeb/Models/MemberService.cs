@@ -56,7 +56,12 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.GetMember(account);
             return ret;
         }
-
+        // 區間紀錄
+        public List<DateScores> IntervalRecord(Member member, string startDate, string endDate)
+        {
+            var ret = _memberRepository.IntervalRecord(member, startDate, endDate);
+            return ret;
+        }
         public List<Member> GetAllMember()
         {
             var members = _memberRepository.GetAll();

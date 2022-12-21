@@ -83,6 +83,11 @@ namespace BowlingWeb.Models
         {
             throw new NotImplementedException();
         }
+        // 區間紀錄
+        public List<DateScores> IntervalRecord(Member member, string startDate, string endDate)
+        {
+            throw new NotImplementedException();
+        }
         public void Dispose()
         {
             return;

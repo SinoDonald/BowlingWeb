@@ -33,28 +33,4 @@ namespace BowlingWeb.Models
         public string AverageScore { get; set; }        
         public List<DateScores> DateScores = new List<DateScores>();
     }
-
-    //存檔完畢之後回傳結果的物件
-    public class ModalFormSaveResultModel
-    {
-        public bool IsSuccess { get; set; } = false;
-        public string ErrorMsg { get; set; } = string.Empty;
-        public string InfoMsg { get; set; } = string.Empty;
-
-    }
-
-    //按下（存檔）按鈕時，post送出的資料
-    public class AuditCorrectSavePostModel
-    {
-        public UploadFileDetailModel[] UploadFileDetailArr { get; set; }//多個檔案上傳
-
-    }
-
-    public class UploadFileDetailModel
-    {
-        public string FileName { get; set; }
-        public string FileType { get; set; }
-        public string FileContentBase64 { get; set; }
-
-    }
 }

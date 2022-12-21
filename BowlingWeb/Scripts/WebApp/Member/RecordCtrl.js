@@ -29,10 +29,13 @@ app.service('appService', ['$http', function ($http) {
     this.GetAllMember = function (o) {
         return $http.post('Member/GetAllMember', o);
     };
-
     // 統計圖表+個人紀錄
     this.GetMember = function (o) {
         return $http.post("Member/GetMember", o);
+    };
+    // 區間紀錄
+    this.IntervalRecord = function (o) {
+        return $http.post("Member/IntervalRecord", o);
     };
 
 }]);
@@ -102,13 +105,22 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
 
     $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
-    // 統計分數區間
+    // 預設起終日期
     $scope.startDate = $scope.Member.DateScores[0].Date;
     $scope.endDate = $scope.Member.DateScores[$scope.Member.DateScores.length - 1].Date;
+
+    // 統計分數區間
     $scope.Statistics = function (startDate, endDate) {
-        $scope.Member = myFactory.get()
-        $scope.startDate = startDate
-        $scope.endDate = endDate
+        $scope.startDate = (startDate != null) ? startDate : $scope.startDate
+        $scope.endDate = (endDate != null) ? endDate : $scope.endDate
+        // 區間紀錄
+        appService.IntervalRecord({ member: $scope.Member, startDate: $scope.startDate, endDate: $scope.endDate })
+            .then(function (ret) {
+
+            })
+            .catch(function (ret) {
+                alert('Error');
+            });
     }
 
     // 分數列表

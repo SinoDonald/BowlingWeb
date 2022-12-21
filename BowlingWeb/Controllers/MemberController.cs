@@ -120,5 +120,11 @@ namespace BowlingWeb.Controllers
             var ret = _service.GetMember(account);
             return Json(ret);
         }
+        // 區間紀錄
+        public JsonResult IntervalRecord(Member member, string startDate, string endDate)
+        {
+            var ret = _service.IntervalRecord(member, startDate, endDate);
+            return Json(ret);
+        }
     }
 }

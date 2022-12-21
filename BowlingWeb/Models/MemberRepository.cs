@@ -324,7 +324,13 @@ namespace BowlingWeb.Models
 
             return ret;
         }
+        // 區間紀錄
+        public List<DateScores> IntervalRecord(Member member, string startDate, string endDate)
+        {
+            List<DateScores> dateScoresList = new List<DateScores>();
 
+            return dateScoresList;
+        }
         public List<Member> GetAll()
         {
             List<Member> ret;
