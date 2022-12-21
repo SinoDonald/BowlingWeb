@@ -5,9 +5,48 @@
 }
 
 <div ng-controller="ChartRecordCtrl" class="container" style="margin-top: 60px">
+
     <div class="form-group d-flex justify-content-between">
         <h3 style="color:cornflowerblue;">{{Member.Name}}</h3>
         <button type='reset' class='btn btn-danger' style="text-align:right" onclick='javascript:history.back();'> 回上頁 </button>
+    </div>
+    <br />
+    <div class="row">
+        <div class="input-group mb-3 w-25 p-3">
+            <h3>請選擇統計區間</h3>
+        </div>
+        <div class="input-group mb-3 w-25 p-3"
+             moment-picker="ctrl.datepicker"
+             format="YYYY-MM-DD">
+            <span class="input-group-addon">
+            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
+            </div>
+            @*<div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">請選擇統計區間</span>
+            </div>*@
+            <input class="form-control"
+                   placeholder={{startDate}}
+                   ng-model="ctrl.datepicker"
+                   ng-model-options="{ updateOn: 'blur' }">
+        </div>
+        <div class="input-group mb-3 w-25 p-3"
+             moment-picker="ctrl.datepicker1"
+             format="YYYY-MM-DD">
+            <span class="input-group-addon">
+            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
+            </div>
+            <input class="form-control"
+                   placeholder={{endDate}}
+                   ng-model="ctrl.datepicker1"
+                   ng-model-options="{ updateOn: 'blur' }">
+        </div>
+        <div class="input-group mb-3 w-25 p-3">
+            <button type="button" class="btn btn-dark" ng-click="Statistics(ctrl.datepicker, ctrl.datepicker1)">計算</button>
+        </div>
     </div>
     <br />
     <div class="row">
@@ -19,30 +58,9 @@
         </div>
     </div>
     <div>
-        <div class="input-group mb-3 w-25 p-3"
-             moment-picker="ctrl.datepicker"
-             format="YYYY-MM"
-             locale="zh-tw"
-             change="GetTasklogData()">
-            <span class="input-group-addon">
-            </span>
-            <div class="input-group-prepend">
-                <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
-            </div>
-            <input class="form-control"
-                   placeholder="Select a date"
-                   ng-model="ctrl.datepicker"
-                   ng-model-options="{ updateOn: 'blur' }">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">請選擇年月份</span>
-            </div>
-        </div>
         <canvas id="myChart"></canvas>
         <button type="button" class="btn btn-warning" ng-click="PersonalRecord()">分數列表</button>
     </div>
-    <br />
-    <br />
-    <br />
 </div>
 
 @section Scripts {
