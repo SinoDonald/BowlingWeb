@@ -26,7 +26,7 @@ namespace BowlingWeb.Models
             throw new NotImplementedException();
         }
         // 個人紀錄
-        public Member GetMember(string account)
+        public Member GetMember(string account, string startDate, string endDate)
         {
             throw new NotImplementedException();
         }
@@ -80,11 +80,6 @@ namespace BowlingWeb.Models
         }
         // 讀取檔案
         public List<Member> ReadExcel(string filePath)
-        {
-            throw new NotImplementedException();
-        }
-        // 區間紀錄
-        public List<DateScores> IntervalRecord(Member member, string startDate, string endDate)
         {
             throw new NotImplementedException();
         }

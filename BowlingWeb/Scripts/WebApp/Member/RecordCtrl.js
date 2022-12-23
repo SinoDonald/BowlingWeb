@@ -88,7 +88,9 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
     // 選擇要看的成員
     $scope.RecordOption = function (data) {
         // 取得個人紀錄
-        appService.GetMember({ account: data })
+        startDate = null
+        endDate = null
+        appService.GetMember({ account: data, startDate: startDate, endDate: endDate })
             .then(function (ret) {
                 myFactory.set(ret.data)
                 $location.path('/ChartRecord');
@@ -114,9 +116,10 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
         $scope.startDate = (startDate != null) ? startDate : $scope.startDate
         $scope.endDate = (endDate != null) ? endDate : $scope.endDate
         // 區間紀錄
-        appService.IntervalRecord({ member: $scope.Member, startDate: $scope.startDate, endDate: $scope.endDate })
+        appService.GetMember({ account: $scope.Member.Account, startDate: $scope.startDate, endDate: $scope.endDate })
             .then(function (ret) {
-                $scope.Member.DateScores = ret.data;
+                $scope.Member = ret.data;
+                myFactory.set(ret.data);
             })
             .catch(function (ret) {
                 alert('Error');

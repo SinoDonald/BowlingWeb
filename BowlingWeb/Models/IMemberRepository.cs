@@ -10,9 +10,7 @@ namespace BowlingWeb.Models
         // 登入
         Member Login(Member member);
         // 個人紀錄
-        Member GetMember(string account);
-        // 區間紀錄
-        List<DateScores> IntervalRecord(Member member, string startDate, string endDate);
+        Member GetMember(string account, string startDate, string endDate);
         List<Member> GetAll();
         // 上傳檔案資訊
         Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file);

@@ -115,15 +115,9 @@ namespace BowlingWeb.Controllers
         }
         // 統計圖表+個人紀錄
         [HttpPost]
-        public JsonResult GetMember(string account)
+        public JsonResult GetMember(string account, string startDate, string endDate)
         {
-            var ret = _service.GetMember(account);
-            return Json(ret);
-        }
-        // 區間紀錄
-        public JsonResult IntervalRecord(Member member, string startDate, string endDate)
-        {
-            var ret = _service.IntervalRecord(member, startDate, endDate);
+            var ret = _service.GetMember(account, startDate, endDate);
             return Json(ret);
         }
     }
