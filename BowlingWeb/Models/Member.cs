@@ -32,5 +32,7 @@ namespace BowlingWeb.Models
         public string MinScore { get; set; }
         public string AverageScore { get; set; }        
         public List<DateScores> DateScores = new List<DateScores>();
+        public List<string> StatisticsRow = new List<string>();
+        public List<string> StatisticsCol = new List<string>();
     }
 }

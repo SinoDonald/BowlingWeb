@@ -311,12 +311,19 @@ namespace BowlingWeb.Models
                         DateTime dDate = Convert.ToDateTime(dateScores.Date);
                         if (dDate >= sDate && dDate <= eDate)
                         {
+                            ret.StatisticsRow.Add(dDate.ToString("D"));
+                            double colScores = 0.0;
                             foreach (string score in scores)
                             {
                                 dateScores.Scores.Add(Convert.ToDouble(score));
                                 allScores.Add(Convert.ToDouble(score)); // 記錄所有分數
                                 games++;
+
+                                colScores += Convert.ToDouble(score);
                             }
+
+                            ret.StatisticsCol.Add((Math.Round(colScores / scores.Count(), 2, MidpointRounding.AwayFromZero)).ToString());
+
                             ret.DateScores.Add(dateScores);
                         }
                     }

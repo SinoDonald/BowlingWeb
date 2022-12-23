@@ -54,6 +54,8 @@ app.factory('myFactory', function () {
         member.MinScore = data.MinScore;
         member.AverageScore = data.AverageScore;
         member.DateScores = data.DateScores;
+        member.StatisticsRow = data.StatisticsRow;
+        member.StatisticsCol = data.StatisticsCol;
     }
 
     function get() {
@@ -136,10 +138,10 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: $scope.Member.StatisticsRow,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: '當日均分',
+                data: $scope.Member.StatisticsCol,
                 borderWidth: 1
             }]
         },
