@@ -287,47 +287,66 @@ namespace BowlingWeb.Models
             ret = conn.Query<Member>(sql, new { account }).ToList().FirstOrDefault();
             foreach (Member member in members)
             {
-                List<double> allScores = new List<double>();
-                string[] dateScoreList = member.Scores.Split(';');
-                int games = 0;
-                foreach(string item in dateScoreList)
-                {
-                    try
-                    {
-                        DateScores dateScores = new DateScores();
-                        string dateScore = item.Split(':')[1];
-                        dateScores.Date = item.Split(':')[0];
-                        string[] scores = dateScore.Split(',');
-                        foreach (string score in scores)
-                        {
-                            dateScores.Scores.Add(Convert.ToDouble(score));
-                            allScores.Add(Convert.ToDouble(score)); // 記錄所有分數
-                            games++;
-                        }
-                        ret.DateScores.Add(dateScores);
-                    }
-                    catch(Exception ex)
-                    {
-                        string error = ex.Message;
-                    }
-                }
-
-                ret.Games = games; // 局數
-                string maxScores = allScores.Max().ToString(); // 最高分
-                string minScores = allScores.Min().ToString(); // 最低分
-                string maxScoresDate = ret.DateScores.Where(x => x.Scores.Max().ToString().Equals(maxScores)).FirstOrDefault().Date; // 最高分日期
-                string minScoresDate = ret.DateScores.Where(x => x.Scores.Min().ToString().Equals(minScores)).FirstOrDefault().Date; // 最低分日期
-                ret.MaxScore = maxScoresDate + "：" + maxScores; // 最高分
-                ret.MinScore = minScoresDate + "：" + minScores; // 最低分
-                ret.AverageScore = Math.Round(allScores.Sum() / allScores.Count(), 2, MidpointRounding.AwayFromZero).ToString(); // 平均分數
             }
 
             return ret;
         }
+        // 取得分數最高最低分
+        public Member MaxMinScores(Member member)
+        {
+            List<double> allScores = new List<double>();
+            string[] dateScoreList = member.Scores.Split(';');
+            int games = 0;
+            foreach (string item in dateScoreList)
+            {
+                try
+                {
+                    DateScores dateScores = new DateScores();
+                    string dateScore = item.Split(':')[1];
+                    dateScores.Date = item.Split(':')[0];
+                    string[] scores = dateScore.Split(',');
+                    foreach (string score in scores)
+                    {
+                        dateScores.Scores.Add(Convert.ToDouble(score));
+                        allScores.Add(Convert.ToDouble(score)); // 記錄所有分數
+                        games++;
+                    }
+                    ret.DateScores.Add(dateScores);
+                }
+                catch (Exception ex)
+                {
+                    string error = ex.Message;
+                }
+            }
+
+            ret.Games = games; // 局數
+            string maxScores = allScores.Max().ToString(); // 最高分
+            string minScores = allScores.Min().ToString(); // 最低分
+            string maxScoresDate = ret.DateScores.Where(x => x.Scores.Max().ToString().Equals(maxScores)).FirstOrDefault().Date; // 最高分日期
+            string minScoresDate = ret.DateScores.Where(x => x.Scores.Min().ToString().Equals(minScores)).FirstOrDefault().Date; // 最低分日期
+            ret.MaxScore = maxScoresDate + "：" + maxScores; // 最高分
+            ret.MinScore = minScoresDate + "：" + minScores; // 最低分
+            ret.AverageScore = Math.Round(allScores.Sum() / allScores.Count(), 2, MidpointRounding.AwayFromZero).ToString(); // 平均分數
+
+        }
         // 區間紀錄
         public List<DateScores> IntervalRecord(Member member, string startDate, string endDate)
         {
+            member = GetMember(member.Account);
+
+            DateTime sDate = Convert.ToDateTime(startDate);
+            DateTime eDate = Convert.ToDateTime(endDate);
+
+            // 日期比對, 留下選擇區間的資料就好
             List<DateScores> dateScoresList = new List<DateScores>();
+            foreach(DateScores dateScores in member.DateScores.ToList())
+            {
+                DateTime dDate = Convert.ToDateTime(dateScores.Date);
+                if(dDate >= sDate && dDate <= eDate)
+                {
+                    dateScoresList.Add(dateScores);
+                }
+            }
 
             return dateScoresList;
         }

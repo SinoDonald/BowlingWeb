@@ -116,7 +116,7 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
         // 區間紀錄
         appService.IntervalRecord({ member: $scope.Member, startDate: $scope.startDate, endDate: $scope.endDate })
             .then(function (ret) {
-
+                $scope.Member.DateScores = ret.data;
             })
             .catch(function (ret) {
                 alert('Error');
