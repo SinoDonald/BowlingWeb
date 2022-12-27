@@ -24,8 +24,8 @@
                 <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
             </div>
             @*<div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">請選擇統計區間</span>
-            </div>*@
+                    <span class="input-group-text" id="basic-addon1">請選擇統計區間</span>
+                </div>*@
             <input class="form-control"
                    placeholder={{startDate}}
                    ng-model="ctrl.datepicker"
@@ -57,10 +57,9 @@
             <h4>平均分數：{{Member.AverageScore}}分</h4>
         </div>
     </div>
-    <div>
-        <canvas id="myChart"></canvas>
-        <button type="button" class="btn btn-warning" ng-click="PersonalRecord()">分數列表</button>
+    <div id="painting">
     </div>
+    <button type="button" class="btn btn-warning" ng-click="PersonalRecord()">分數列表</button>
 </div>
 
 @section Scripts {

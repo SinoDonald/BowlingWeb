@@ -107,6 +107,7 @@ app.controller('AllMemberRecordCtrl', ['$scope', '$window', 'appService', '$root
 // 統計圖表
 app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
+    i = 0;
     $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
     // 預設起終日期
@@ -122,38 +123,21 @@ app.controller('ChartRecordCtrl', ['$scope', '$window', 'appService', '$rootScop
             .then(function (ret) {
                 $scope.Member = ret.data;
                 myFactory.set(ret.data);
+                // 更新繪圖
+                DrawChart($scope.Member.StatisticsRow, $scope.Member.StatisticsCol);
             })
             .catch(function (ret) {
                 alert('Error');
             });
     }
 
+    // 繪圖
+    DrawChart($scope.Member.StatisticsRow, $scope.Member.StatisticsCol);
+
     // 分數列表
     $scope.PersonalRecord = function () {
         $location.path('/PersonalRecord');
     }
-
-    // 繪圖
-    const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: $scope.Member.StatisticsRow,
-            datasets: [{
-                label: '當日均分',
-                data: $scope.Member.StatisticsCol,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
 }]);
 
 // 分數列表
@@ -162,3 +146,37 @@ app.controller('PersonalRecordCtrl', ['$scope', '$window', 'appService', '$rootS
     $scope.Member = myFactory.get(); // 選擇要評分的成員資料
 
 }]);
+
+// 繪圖+更新繪圖
+let chartSet = [];
+function DrawChart(StatisticsRow, StatisticsCol) {
+
+    painting.innerHTML = '';
+
+    const div = document.createElement('div');
+    div.className = 'row  mb-5';
+    div.innerHTML = '<canvas id="myChart"></canvas>';
+    painting.appendChild(div);
+
+    const config = {
+        type: 'line',
+        data: {
+            labels: StatisticsRow,
+            datasets: [{
+                label: '當日均分',
+                data: StatisticsCol,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    };
+
+    chartSet.push(new Chart(document.getElementById('myChart'), config));
+    painting.className = 'line';
+}
