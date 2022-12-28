@@ -56,12 +56,20 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.GetMember(account, startDate, endDate);
             return ret;
         }
+        // 取得所有使用者
         public List<Member> GetAllMember()
         {
             var members = _memberRepository.GetAll();
             return members;
         }
+        // 取得使用者的群組所有成員
+        public List<Member> GetUserGroup(string account)
+        {
+            var members = _memberRepository.GetUserGroup(account);
 
+            return members;
+        }
+        // 註冊新使用者
         public Member CreateMember(Member member)
         {
             var ret = _memberRepository.Create(member);

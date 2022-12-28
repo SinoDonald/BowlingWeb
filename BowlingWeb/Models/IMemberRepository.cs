@@ -12,6 +12,8 @@ namespace BowlingWeb.Models
         // 個人紀錄
         Member GetMember(string account, string startDate, string endDate);
         List<Member> GetAll();
+        // 取得使用者的群組所有成員
+        List<Member> GetUserGroup(string account);
         // 上傳檔案資訊
         Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file);
         // 上傳單一檔案

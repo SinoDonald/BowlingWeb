@@ -21,6 +21,11 @@ namespace BowlingWeb.Controllers
         {
             return View();
         }
+        // 新增分數
+        public ActionResult Create()
+        {
+            return View();
+        }
         // 上傳資料
         public ActionResult Upload()
         {
@@ -110,6 +115,17 @@ namespace BowlingWeb.Controllers
             if(Session["Account"] is object)
             {
                 ret = _service.GetAllMember();
+            }
+            return Json(ret);
+        }
+        // 取得使用者的群組所有成員
+        [HttpPost]
+        public JsonResult GetUserGroup()
+        {
+            List<Member> ret = new List<Member>();
+            if (Session["Account"] is object)
+            {
+                ret = _service.GetUserGroup(Session["Account"].ToString());
             }
             return Json(ret);
         }

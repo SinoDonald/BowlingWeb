@@ -68,6 +68,11 @@ namespace BowlingWeb.Models
 
             return userInfo;
         }
+        // 取得使用者的群組所有成員
+        public List<Member> GetUserGroup(string account)
+        {
+            throw new NotImplementedException();
+        }
         // 上傳檔案資訊
         public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
         {

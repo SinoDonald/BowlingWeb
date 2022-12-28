@@ -51,15 +51,15 @@
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section">@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li><a href="~/Member/Create" class="scroll-to-section">新增分數</a></li>
                             @if (Session["Account"] != null)
                             {
                                 if (Session["Account"].ToString().Equals("Donald"))
                                 {
                                     <li class="scroll-to-section">@Html.ActionLink("上傳檔案", "Upload", "Member")</li>
-                                    <li class="scroll-to-section">@Html.ActionLink("下載檔案", "Download", "Member")</li>
+                                    @*<li class="scroll-to-section">@Html.ActionLink("下載檔案", "Download", "Member")</li>*@
                                 }
                             }
-                            @*<li class="scroll-to-section">@Html.ActionLink("個人紀錄", "Record", "Member")</li>*@
                             <li><a href="~/Member/Record#!AllMemberRecord" class="scroll-to-section">個人紀錄</a></li>
                             <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
                             @if (Session["Account"] == null)
@@ -70,8 +70,6 @@
                             {
                                 <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink(Session["Account"].ToString(), "Login", "Member")</div></li>
                             }
-                            @*<li class="scroll-to-section">@Html.ActionLink("關於我們", "About", "Home")</li>
-        <li class="scroll-to-section">@Html.ActionLink("統計圖表", "Chart", "Member")</li>*@
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

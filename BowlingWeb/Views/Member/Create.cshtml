@@ -1,16 +1,15 @@
 ﻿@using BowlingWeb.Models;
 
 @{
-    ViewBag.Title = "AllMemberRecord";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create";
 }
 
-<div ng-controller="AllMemberRecordCtrl" class="container">
+<div ng-controller="CreateCtrl" class="container" style="margin-top: 60px">
 
     <br />
     <br />
     <div class="row justify-content-center">
-        <div class="col-lg-2 col-sm-2" ng-repeat="member in GetAllMember">
+        <div class="col-lg-2 col-sm-2" ng-repeat="member in GetUserGroup">
             <img src="~/images/Member/{{member.Name}}.jpg" class="img-thumbnail" alt="{{member.Name}}">
             <input type="submit" value={{member.Name}} ng-click="RecordOption(member.Account)" class="btn btn-warning" style="text-align:center" />
         </div>
@@ -21,6 +20,5 @@
 </div>
 
 @section Scripts {
-    @*<script src="~/Scripts/WebApp/Member/AllMemberRecordCtrl.js"></script>*@
-    <script src="@Url.Versioned("~/Scripts/WebApp/Member/AllMemberRecordCtrl.js")"></script>
+    <script src="@Url.Versioned("~/Scripts/WebApp/Member/CreateCtrl.js")"></script>
 }

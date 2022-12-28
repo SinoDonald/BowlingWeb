@@ -291,6 +291,11 @@ namespace BowlingWeb.Models
             {
                 eDate = Convert.ToDateTime(endDate);
             }
+            if(sDate > eDate)
+            {
+                sDate = Convert.ToDateTime(endDate);
+                eDate = Convert.ToDateTime(startDate);
+            }
 
             string sql = @"select * from Member where Account=@account";
             List<Member> members = conn.Query<Member>(sql, new { account }).ToList();
@@ -345,6 +350,7 @@ namespace BowlingWeb.Models
 
             return ret;
         }
+        // 取得全部使用者
         public List<Member> GetAll()
         {
             List<Member> ret;
@@ -353,6 +359,17 @@ namespace BowlingWeb.Models
             ret = conn.Query<Member>(sql).ToList();
 
             return ret;
+        }
+        // 取得使用者的群組所有成員
+        public List<Member> GetUserGroup(string account)
+        {
+            List<Member> allMembers = GetAll();
+
+            // 找到登入者的群組成員
+            string group = allMembers.Where(x => x.Account.Equals(account)).FirstOrDefault().Group;
+            var members = allMembers.Where(x => x.Group.Equals(group)).ToList();
+
+            return members;
         }
         // 註冊
         public Member Create(Member member)
