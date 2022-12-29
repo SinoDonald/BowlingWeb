@@ -46,6 +46,8 @@ app.factory('myFactory', function () {
 // 顯示成員名單
 app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
+    $scope.today = new Date(); // 預設當天日期
+
     // 取得所有成員名單
     appService.GetUserGroup({})
         .then(function (ret) {
@@ -54,5 +56,11 @@ app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '
         .catch(function (ret) {
             alert('Error');
         });
+
+    // 統計分數區間
+    $scope.CreateScore = function (date, name) {
+        $scope.date = date;
+        $scope.name = name;
+    }
 
 }]);

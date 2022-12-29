@@ -8,10 +8,32 @@
 
     <br />
     <br />
+    <div class="input-group mb-3 w-25 p-3">
+        <h3>新增分數</h3>
+    </div>
+    <div class="row">
+        <div class="input-group mb-3 w-25 p-3">
+            <h6>請選擇日期</h6>
+        </div>
+        <div class="input-group mb-3 w-25 p-3"
+             moment-picker="ctrl.datepicker"
+             format="YYYY/MM/DD">
+            <span class="input-group-addon">
+            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text material-icons" id="basic-addon1">calendar_month</span>
+            </div>
+            <input class="form-control"
+                   placeholder="{{ today | date:'yyyy/MM/dd' }}"
+                   ng-model="ctrl.datepicker"
+                   ng-model-options="{ updateOn: 'blur' }">
+        </div>
+    </div>
     <div class="row justify-content-center">
-        <div class="col-lg-2 col-sm-2" ng-repeat="member in GetUserGroup">
-            <img src="~/images/Member/{{member.Name}}.jpg" class="img-thumbnail" alt="{{member.Name}}">
-            <input type="submit" value={{member.Name}} ng-click="RecordOption(member.Account)" class="btn btn-warning" style="text-align:center" />
+        <div class="col-lg-2 col-sm-2" ng-repeat="Member in GetUserGroup">
+            <h3 style="color:cornflowerblue;">{{Member.Name}}</h3>
+            <input type="text" ng-model="name" placeholder="Enter a name here">
+            <button type="button" class="btn btn-warning" ng-click="CreateScore(ctrl.datepicker, name)">新增</button>
         </div>
     </div>
     <br />
@@ -19,6 +41,6 @@
 
 </div>
 
-@section Scripts {
-    <script src="@Url.Versioned("~/Scripts/WebApp/Member/CreateCtrl.js")"></script>
-}
+    @section Scripts {
+        <script src="@Url.Versioned("~/Scripts/WebApp/Member/CreateCtrl.js")"></script>
+    }
