@@ -11,6 +11,10 @@ app.service('appService', ['$http', function ($http) {
     this.GetUserGroup = function (o) {
         return $http.post('Member/GetUserGroup', o);
     };
+    // 新增分數
+    this.CreateScores = function (o) {
+        return $http.post('Member/CreateScores', o);
+    };
 
 }]);
 
@@ -58,9 +62,14 @@ app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '
         });
 
     // 統計分數區間
-    $scope.CreateScore = function (date, name) {
-        $scope.date = date;
-        $scope.name = name;
+    $scope.CreateScores = function (date, users) {
+        appService.CreateScores({ date: date, users: users })
+            .then(function (ret) {
+                $scope.date = ret;
+            })
+            .catch(function (ret) {
+                alert('Error');
+            });
     }
 
 }]);

@@ -86,6 +86,13 @@ namespace BowlingWeb.Controllers
             Session["Account"] = ret.Account;
             return Json(ret);
         }
+        // 新增分數
+        [HttpPost]
+        public JsonResult CreateScores(string date, List<Member> users)
+        {
+            var ret = users;
+            return Json(ret);
+        }
         // 上傳檔案資訊
         [HttpPost]
         public ActionResult UpdateFileInfo(HttpPostedFileBase file)
