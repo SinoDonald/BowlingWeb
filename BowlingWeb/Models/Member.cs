@@ -21,6 +21,7 @@ namespace BowlingWeb.Models
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
         public string Password { get; set; }
         public List<string> CreateScores = new List<string>();
+        public List<string> SerializationScores { get; set; }
         public string Group { get; set; }
         public string Name { get; set; }
         [Required]

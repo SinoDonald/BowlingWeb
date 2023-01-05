@@ -12,7 +12,10 @@ app.service('appService', ['$http', function ($http) {
         return $http.post('Member/GetUserGroup', o);
     };
     // 新增分數
-    this.CreateScores = function (o) {
+    //this.CreateScores = function (o) {
+    //    return $http.post('Member/CreateScores', o);
+    //};
+    this.CreateScores = (o) => {
         return $http.post('Member/CreateScores', o);
     };
 
@@ -25,6 +28,7 @@ app.factory('myFactory', function () {
 
     function set(data) {
         member.Account = data.Account;
+        member.CreateScores = data.CreateScores;
         member.Group = data.Group;
         member.Name = data.Name;
         member.Games = data.Games;
@@ -46,9 +50,27 @@ app.factory('myFactory', function () {
     }
 
 });
+app.factory('memberList', function () {
+
+    var members = {}
+
+    function set(data) {
+        members = data;
+    }
+
+    function get() {
+        return members;
+    }
+
+    return {
+        set: set,
+        get: get,
+    }
+
+});
 
 // 顯示成員名單
-app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
+app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', 'memberList', function ($scope, $window, appService, $rootScope, $location, myFactory, memberList) {
 
     $scope.today = new Date(); // 預設當天日期
 
@@ -63,13 +85,14 @@ app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '
 
     // 統計分數區間
     $scope.CreateScores = function (date, users) {
+
+        for (let i = 0; i !== users.length; i++) {
+            users[i].SerializationScores = users[i].CreateScores
+        }
         appService.CreateScores({ date: date, users: users })
-            .then(function (ret) {
-                $scope.date = ret;
-            })
-            .catch(function (ret) {
-                alert('Error');
-            });
+            .then((ret) => { })
+            .catch((ret) => { alert('Error'); }
+            );
     }
 
 }]);

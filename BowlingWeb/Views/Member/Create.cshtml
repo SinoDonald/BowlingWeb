@@ -33,10 +33,16 @@
         <div class="col-lg-2 col-sm-2" ng-repeat="Member in GetUserGroup">
             <h3 style="color:cornflowerblue;">{{Member.Name}}</h3>
             <div ng-repeat="x in [].constructor(5) track by $index">
-                <input type="text" ng-model="Member.CreateScores[$index]" name="Scope{{$index}}" placeholder="{{ $index }}">
+                <input type="text" ng-model="Member.CreateScores[$index]" name="CreateScores{{$index}}" placeholder="{{ $index+1 }}">
+            </div>
+            <br />
+            <br />
+        </div>
+        <div class="container">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-warning" ng-click="CreateScores(ctrl.datepicker, GetUserGroup)">新增</button>
             </div>
         </div>
-        <button type="button" class="btn btn-warning" ng-click="CreateScores(ctrl.datepicker, GetUserGroup)">新增</button>
     </div>
     <br />
     <br />

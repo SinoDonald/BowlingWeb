@@ -88,6 +88,11 @@ namespace BowlingWeb.Models
         {
             throw new NotImplementedException();
         }
+        // 新增分數
+        public List<Member> CreateScores(string date, List<Member> users)
+        {
+            throw new NotImplementedException();
+        }
         public void Dispose()
         {
             return;

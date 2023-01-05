@@ -90,7 +90,7 @@ namespace BowlingWeb.Controllers
         [HttpPost]
         public JsonResult CreateScores(string date, List<Member> users)
         {
-            var ret = users;
+            var ret = _service.CreateScores(date, users);
             return Json(ret);
         }
         // 上傳檔案資訊

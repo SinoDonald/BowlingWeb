@@ -31,6 +31,17 @@ namespace BowlingWeb.Models
 
             return ret;
         }
+        // 新增分數
+        public List<Member> CreateScores(string date, List<Member> users)
+        {
+            // 排除填寫資料中為null的值
+            foreach(Member user in users)
+            {
+                List<string> serializationScores = user.SerializationScores.Where(x => x != null).ToList();
+                user.SerializationScores= serializationScores;
+            }
+            return users;
+        }
         // 上傳檔案資訊
         public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
         {
