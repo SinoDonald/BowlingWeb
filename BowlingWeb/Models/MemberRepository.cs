@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Dapper;
+using DocumentFormat.OpenXml.Office.CustomXsn;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,25 @@ namespace BowlingWeb.Models
             // 排除填寫資料中為null的值
             foreach(Member user in users)
             {
-                List<string> serializationScores = user.SerializationScores.Where(x => x != null).ToList();
-                user.SerializationScores= serializationScores;
+                if(date != null && user.SerializationScores != null)
+                {
+                    List<string> serializationScores = user.SerializationScores.Where(x => x != null).ToList();
+                    user.SerializationScores = serializationScores;
+                    if (!user.Scores.Contains(date))
+                    {
+                        user.Scores += date + ":";
+                        foreach(string score in user.SerializationScores)
+                        {
+                            user.Scores += score + ",";
+                        }
+                        user.Scores = user.Scores.Remove(user.Scores.Length - 1, 1) + ";";
+                    }
+                }
             }
+
+            // 更新SQL分數
+            EditToSQL(users);
+
             return users;
         }
         // 上傳檔案資訊
