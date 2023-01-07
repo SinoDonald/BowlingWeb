@@ -32,7 +32,7 @@ namespace BowlingWeb.Models
             return ret;
         }
         // 新增分數
-        public List<Member> CreateScores(string date, List<Member> users)
+        public string CreateScores(string date, List<Member> users)
         {
             var ret = _memberRepository.CreateScores(date, users);
             return ret;

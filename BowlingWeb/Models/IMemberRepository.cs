@@ -10,7 +10,7 @@ namespace BowlingWeb.Models
         // 登入
         Member Login(Member member);
         // 新增分數
-        List<Member> CreateScores(string date, List<Member> users);
+        string CreateScores(string date, List<Member> users);
         // 個人紀錄
         Member GetMember(string account, string startDate, string endDate);
         List<Member> GetAll();

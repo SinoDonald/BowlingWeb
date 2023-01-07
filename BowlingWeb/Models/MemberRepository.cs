@@ -33,23 +33,43 @@ namespace BowlingWeb.Models
             return ret;
         }
         // 新增分數
-        public List<Member> CreateScores(string date, List<Member> users)
+        public string CreateScores(string date, List<Member> users)
         {
-            // 排除填寫資料中為null的值
-            foreach(Member user in users)
+            // 回傳資訊
+            string info = "無新資料更新";
+
+            foreach (Member user in users)
             {
-                if(date != null && user.SerializationScores != null)
+                if (user.SerializationScores != null)
                 {
+                    // 排除填寫資料中為null的值
                     List<string> serializationScores = user.SerializationScores.Where(x => x != null).ToList();
                     user.SerializationScores = serializationScores;
-                    if (!user.Scores.Contains(date))
+
+                    // 先拆解分數列表
+                    List<string> scoreList = user.Scores.Trim().Split(';').Where(x => x != "").OrderBy(x => x).ToList();
+                    // 如果同日期則新增分數
+                    string sameDate = scoreList.Where(x => x.Contains(date)).FirstOrDefault();
+                    if (sameDate != null)
+                    {
+                        string createScores = sameDate;
+                        foreach (string score in user.SerializationScores)
+                        {
+                            createScores += "," + score;
+                        }
+                        user.Scores = user.Scores.Replace(sameDate, createScores);
+                        info = "新增完成";
+                    }
+                    // 如果不同日期則新增日期+分數
+                    else if (!user.Scores.Contains(date))
                     {
                         user.Scores += date + ":";
-                        foreach(string score in user.SerializationScores)
+                        foreach (string score in user.SerializationScores)
                         {
                             user.Scores += score + ",";
                         }
                         user.Scores = user.Scores.Remove(user.Scores.Length - 1, 1) + ";";
+                        info = "新增完成";
                     }
                 }
             }
@@ -57,7 +77,7 @@ namespace BowlingWeb.Models
             // 更新SQL分數
             EditToSQL(users);
 
-            return users;
+            return info;
         }
         // 上傳檔案資訊
         public Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file)
@@ -331,7 +351,7 @@ namespace BowlingWeb.Models
             foreach (Member member in members)
             {
                 List<double> allScores = new List<double>();
-                string[] dateScoreList = member.Scores.Split(';');
+                List<string> dateScoreList = member.Scores.Split(';').Where(x => x != "").OrderBy(x => x).ToList();
                 int games = 0;
                 foreach (string item in dateScoreList)
                 {

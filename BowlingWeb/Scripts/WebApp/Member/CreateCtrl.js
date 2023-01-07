@@ -12,9 +12,6 @@ app.service('appService', ['$http', function ($http) {
         return $http.post('Member/GetUserGroup', o);
     };
     // 新增分數
-    //this.CreateScores = function (o) {
-    //    return $http.post('Member/CreateScores', o);
-    //};
     this.CreateScores = (o) => {
         return $http.post('Member/CreateScores', o);
     };
@@ -50,27 +47,9 @@ app.factory('myFactory', function () {
     }
 
 });
-app.factory('memberList', function () {
-
-    var members = {}
-
-    function set(data) {
-        members = data;
-    }
-
-    function get() {
-        return members;
-    }
-
-    return {
-        set: set,
-        get: get,
-    }
-
-});
 
 // 顯示成員名單
-app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', 'memberList', function ($scope, $window, appService, $rootScope, $location, myFactory, memberList) {
+app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '$location', 'myFactory', function ($scope, $window, appService, $rootScope, $location, myFactory) {
 
     $scope.today = new Date(); // 預設當天日期
 
@@ -85,14 +64,28 @@ app.controller('CreateCtrl', ['$scope', '$window', 'appService', '$rootScope', '
 
     // 統計分數區間
     $scope.CreateScores = function (date, users) {
-
+        // 沒有選擇日期時, 預設為當日
+        if (date == undefined) {
+            let y = $scope.today.getFullYear();
+            let m = $scope.today.getUTCMonth() + 1;
+            let d = $scope.today.getDate();
+            date = y + '/' + m + '/' + d;
+        }
         for (let i = 0; i !== users.length; i++) {
             users[i].SerializationScores = users[i].CreateScores
         }
         appService.CreateScores({ date: date, users: users })
-            .then((ret) => { })
+            .then((ret) => {
+                if (ret.data === "新增完成") {
+                    alert(ret.data)
+                    $window.location.href = 'Member/Record';
+                }
+                else {
+                    alert(ret.data)
+                }               
+            })
             .catch((ret) => { alert('Error'); }
-            );
+        );
     }
 
 }]);
