@@ -39,7 +39,6 @@ namespace BowlingWeb.Controllers
         // 所有紀錄(顯示所有User)
         public ActionResult Record()
         {
-            @Session["Account"] = "Donald";
             return View();
         }
         // 所有人的紀錄
@@ -85,6 +84,14 @@ namespace BowlingWeb.Controllers
             // 把登入者的資料傳進Session["Account"]做紀錄
             Session["Account"] = ret.Account;
             return Json(ret);
+        }
+        // 登出
+        [HttpPost]
+        public JsonResult Logout()
+        {
+            // 設定Session["Account"]為null
+            Session["Account"] = null;
+            return Json(Session["Account"]);
         }
         // 新增分數
         [HttpPost]

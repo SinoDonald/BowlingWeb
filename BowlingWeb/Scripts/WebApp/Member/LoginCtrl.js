@@ -11,6 +11,10 @@ app.service('appService', ['$http', function ($http) {
     this.Login = function (o) {
         return $http.post("Member/Login", o);
     };
+    // 登出
+    this.Logout = function (o) {
+        return $http.post("Member/Logout", o);
+    };
 
 }]);
 
@@ -20,8 +24,14 @@ app.controller('LoginCtrl', ['$scope', '$window', 'appService', '$rootScope', fu
     $scope.Login = function () {
         appService.Login($scope.Member)
             .then(function (ret) {
+                $window.location.href = 'Member/Record';
+            });
+    };
+    // 登出
+    $scope.Logout = function () {
+        appService.Logout()
+            .then(function (ret) {
                 $window.location.href = 'Home/Index';
-                //$window.location.href = 'Member/Record';
             });
     };
 

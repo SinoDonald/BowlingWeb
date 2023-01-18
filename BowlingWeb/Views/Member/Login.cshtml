@@ -2,31 +2,45 @@
 
 @{
     ViewBag.Title = "Login";
+
+
 }
 
 <div ng-controller="LoginCtrl" class="row justify-content-md-center">
     <div ng-repeat="x in [].constructor(4) track by $index">
         <br />
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">登入</div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label>帳號</label>
-                    <input type="text" class="form-control" ng-model="Member.Account">
-                </div>
-                <div class="form-group">
-                    <label>密碼</label>
-                    <input type="password" class="form-control" ng-model="Member.Password">
+    @if (Session["Account"] is null)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">登入</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>帳號</label>
+                        <input type="text" class="form-control" ng-model="Member.Account">
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" class="form-control" ng-model="Member.Password">
+                    </div>
                 </div>
             </div>
+            <br />
+            <div class="panel-footer">
+                <button type="button" ng-click="Login()" class="btn btn-primary">登入</button>
+            </div>
         </div>
-        <br />
-        <div class="panel-footer">
-            <button type="button" ng-click="Login()" class="btn btn-primary">登入</button>
+    }
+    @if (Session["Account"] is object)
+    {
+        <div class="container">
+            <div class="col-md-12 text-center">
+                <button type="button" ng-click="Logout()" class="btn btn-primary">登出</button>
+            </div>
         </div>
-    </div>
+    }
+
 </div>
 
 @section Scripts {
