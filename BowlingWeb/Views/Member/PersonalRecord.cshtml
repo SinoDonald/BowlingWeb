@@ -9,9 +9,9 @@
         <h3 style="color:cornflowerblue;">{{Member.Name}}</h3>
         <button type='reset' class='btn btn-danger' style="text-align:right" onclick='javascript:history.back();'> 回上頁 </button>
     </div>
-    <br />
-    <br />
-    <br />
+    <div ng-repeat="x in [].constructor(3) track by $index">
+        <br />
+    </div>
     <div class="row">
         <div class="col" style="align-items:center" ng-repeat="dateScores in Member.DateScores">
             <ul class="list-group">

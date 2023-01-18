@@ -6,8 +6,9 @@
 
 <div ng-controller="CreateCtrl" class="container" style="margin-top: 60px">
 
-    <br />
-    <br />
+    <div ng-repeat="x in [].constructor(2) track by $index">
+        <br />
+    </div>
     <div class="row">
         <div class="input-group mb-3 w-25 p-3">
             <h6>請選擇日期</h6>
@@ -33,7 +34,6 @@
                 <input type="text" ng-model="Member.CreateScores[$index]" name="CreateScores{{$index}}" placeholder="局數{{ $index+1 }}">
             </div>
             <br />
-            <br />
         </div>
         <div class="container">
             <div class="col-md-12 text-center">
@@ -41,8 +41,6 @@
             </div>
         </div>
     </div>
-    <br />
-    <br />
 
 </div>
 
