@@ -20,6 +20,28 @@
         <br />
     </div>
 
+    <div class="row">
+        <div class="col-sm-12" style="padding-bottom:20px">
+            <div class="col-sm-2">
+                <span>請選擇檔案：</span>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" type="file" name="importFile" id="importFile" />
+            </div>
+            <div class="col-sm-3">
+                <input class="btn btn-primary" id="btnUpload" type="button" value="上傳員工名單" />
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="x in [].constructor(3) track by $index">
+        <br />
+    </div>
+
+    <h3>{{Test}}</h3>
+    @*<div class="col-lg-2 col-sm-2" ng-repeat="Member in Test">
+        <h3>{{Member.Name}}</h3>
+    </div>*@
+
 </div>
 
 @section Scripts {

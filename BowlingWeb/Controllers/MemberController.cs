@@ -1,8 +1,12 @@
 ﻿using BowlingWeb.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace BowlingWeb.Controllers
@@ -112,6 +116,24 @@ namespace BowlingWeb.Controllers
         public ActionResult Upload(HttpPostedFileBase file)
         {
             var ret = _service.Upload(file);
+            return Json(ret);
+        }
+        // 上傳員工名單
+        [HttpPost]
+        public ActionResult ImportFile(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            List<Member> memberList = _service.ImportFile(importFile);
+            string names = string.Empty;
+            foreach(Member member in memberList)
+            {
+                if(member.Name != "")
+                {
+                    names += member.Name + "、";
+                }
+            }
+            var ret = names;
             return Json(ret);
         }
         // 讀取檔案

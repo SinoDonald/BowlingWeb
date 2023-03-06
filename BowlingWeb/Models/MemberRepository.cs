@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
 using Dapper;
-using DocumentFormat.OpenXml.Office.CustomXsn;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
@@ -211,6 +210,40 @@ namespace BowlingWeb.Models
             catch (Exception)
             {
                 //return Content($"<script>alert({JsonConvert.SerializeObject(ex.Message)})</script>", "text/html");
+            }
+
+            return memberList;
+        }
+        // 上傳員工名單
+        public List<Member> ImportFile(HttpPostedFileBase file)
+        {
+            List<Member> memberList = new List<Member>();
+            try
+            {
+                if (Path.GetExtension(file.FileName) != ".xlsx") throw new ApplicationException("請使用Excel 2007(.xlsx)格式");
+                var stream = file.InputStream;
+                XLWorkbook wb = new XLWorkbook(stream);
+                // 讀取第一個 Sheet
+                IXLWorksheet worksheet = wb.Worksheets.Worksheet(1);
+                // 定義資料起始/結束 Cell
+                var firstCell = worksheet.FirstCellUsed();
+                var lastCell = worksheet.LastCellUsed();
+                // 使用資料起始/結束 Cell，來定義出一個資料範圍
+                var data = worksheet.Range(firstCell.Address, lastCell.Address);
+                // 將資料範圍轉型
+                var table = data.AsTable();
+                //讀取資料
+                int rowCount = worksheet.Rows().Count();
+                for (int i = 2; i <= rowCount; i++)
+                {
+                    Member member = new Member();
+                    member.Name = table.Cell(i, 1).Value.ToString();
+                    memberList.Add(member);
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
             return memberList;

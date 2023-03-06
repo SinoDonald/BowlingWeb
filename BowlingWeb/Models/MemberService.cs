@@ -50,6 +50,12 @@ namespace BowlingWeb.Models
             var ret = _memberRepository.Upload(file);
             return ret;
         }
+        // 上傳單一檔案
+        internal List<Member> ImportFile(HttpPostedFileBase file)
+        {
+            var ret = _memberRepository.ImportFile(file);
+            return ret;
+        }
         // 讀取檔案
         internal List<Member> ReadExcel(string filePath)
         {

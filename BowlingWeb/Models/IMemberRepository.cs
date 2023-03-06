@@ -20,6 +20,8 @@ namespace BowlingWeb.Models
         Dictionary<string, object> UpdateFileInfo(HttpPostedFileBase file);
         // 上傳單一檔案
         List<Member> Upload(HttpPostedFileBase file);
+        // 上傳員工名單
+        List<Member> ImportFile(HttpPostedFileBase file);
         // 讀取檔案
         List<Member> ReadExcel(string filePath);
         void Dispose();

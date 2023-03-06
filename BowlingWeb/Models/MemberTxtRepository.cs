@@ -83,6 +83,11 @@ namespace BowlingWeb.Models
         {
             throw new NotImplementedException();
         }
+        // 上傳員工名單
+        public List<Member> ImportFile(HttpPostedFileBase file)
+        {
+            throw new NotImplementedException();
+        }
         // 讀取檔案
         public List<Member> ReadExcel(string filePath)
         {

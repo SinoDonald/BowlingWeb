@@ -45,4 +45,28 @@ app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', f
         });
     });
 
+    // 上傳員工名單
+    $(document).on("click", "#btnUpload", function () {
+        var files = $("#importFile").get(0).files;
+
+        var formData = new FormData();
+        formData.append('importFile', files[0]);
+
+        $.ajax({
+            url: '/Member/ImportFile',
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    // 取得所有成員名單
+                    $scope.Test = data;
+                } else {
+                    alert("上傳檔案格式錯誤");
+                }
+            }
+        });
+    });
+
 }]);
