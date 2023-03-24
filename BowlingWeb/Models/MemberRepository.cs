@@ -236,10 +236,27 @@ namespace BowlingWeb.Models
                 int rowCount = worksheet.Rows().Count();
                 for (int i = 2; i <= rowCount; i++)
                 {
-                    Member member = new Member();
-                    member.Name = table.Cell(i, 1).Value.ToString();
-                    memberList.Add(member);
+                    if(table.Cell(i, 2).Value.ToString().Equals("女") || table.Cell(i, 2).Value.ToString().Equals("男"))
+                    {
+                        Member member = new Member();
+                        member.Name = table.Cell(i, 1).Value.ToString();
+                        member.Gender = table.Cell(i, 2).Value.ToString();
+                        memberList.Add(member);
+                    }
                 }
+
+                //List<Member> womenMembers = memberList.Where(x => x.Gender.Equals("女")).ToList();
+                //List<Member> menMembers = memberList.Where(x => x.Gender.Equals("男")).ToList();
+                //if(womenMembers.Count <= menMembers.Count)
+                //{
+
+                //}
+                //var rnd = new Random();
+                //var randomNumbers = Enumerable.Range(1, memberList.Count()).OrderBy(x => rnd.Next()).Take(memberList.Count()).ToList();
+                //foreach(var r in randomNumbers)
+                //{
+                //    Console.WriteLine(r);
+                //}
             }
             catch (Exception)
             {

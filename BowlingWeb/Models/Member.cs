@@ -32,7 +32,8 @@ namespace BowlingWeb.Models
         public int Games { get; set; }
         public string MaxScore { get; set; }
         public string MinScore { get; set; }
-        public string AverageScore { get; set; }        
+        public string AverageScore { get; set; }      
+        public string Gender { get; set; }
         public List<DateScores> DateScores = new List<DateScores>();
         public List<string> StatisticsRow = new List<string>();
         public List<string> StatisticsCol = new List<string>();
