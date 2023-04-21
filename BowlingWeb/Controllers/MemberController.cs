@@ -134,7 +134,7 @@ namespace BowlingWeb.Controllers
                 }
             }
             var ret = names;
-            return Json(ret);
+            return Json(memberList);
         }
         // 讀取檔案
         [HttpPost]

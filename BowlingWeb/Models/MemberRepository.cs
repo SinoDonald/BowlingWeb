@@ -164,7 +164,7 @@ namespace BowlingWeb.Models
                     member.Account = table.Cell(1, i).Value.ToString();
                     string date = string.Empty;
                     string scores = string.Empty;
-                    for (int j = 2; j < rowCount; j++)
+                    for (int j = 2; j <= rowCount; j++)
                     {
                         // 讀取日期
                         if (table.Cell(j, 2).Value.ToString() != "")

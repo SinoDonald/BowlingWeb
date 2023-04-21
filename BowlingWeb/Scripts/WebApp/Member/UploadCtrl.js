@@ -61,9 +61,10 @@ app.controller('UploadCtrl', ['$scope', '$window', 'appService', '$rootScope', f
             success: function (data) {
                 if (data.length > 0) {
                     // 取得所有成員名單
-                    $("#result").html(data);
+                    //$("#result").html(data);
                     //$("#result").html('<font color="#ff0000">' + data + '</font>');
-                    //$("#result").html('<div class="row"><div class="col" style="align-items:center" ng-repeat="name in' + data + '"><h6 class="list-group-item" style="color:crimson">{{ name }}</h6></div></div>');
+                    $scope.Test = data;
+                    $("#result").html('<div class="row"><div class="col" style="align-items:center" ng-repeat="name in Test"><h6 class="list-group-item" style="color:crimson">{{ name.Name }}</h6></div></div>');
                 } else {
                     alert("上傳檔案格式錯誤");
                 }
