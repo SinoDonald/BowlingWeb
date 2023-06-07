@@ -165,7 +165,11 @@ function DrawChart(StatisticsRow, StatisticsCol) {
             datasets: [{
                 label: '當日均分',
                 data: StatisticsCol,
-                borderWidth: 1
+                borderWidth: 2,
+                tension: 0.2,
+                borderColor: [
+                    'rgb(75, 192, 192)'
+                ]
             }]
         },
         options: {
