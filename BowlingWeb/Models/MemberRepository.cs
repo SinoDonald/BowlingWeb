@@ -236,13 +236,13 @@ namespace BowlingWeb.Models
                 int rowCount = worksheet.Rows().Count();
                 for (int i = 2; i <= rowCount; i++)
                 {
-                    if(table.Cell(i, 2).Value.ToString().Equals("女") || table.Cell(i, 2).Value.ToString().Equals("男"))
-                    {
+                    //if(table.Cell(i, 2).Value.ToString().Equals("女") || table.Cell(i, 2).Value.ToString().Equals("男"))
+                    //{
                         Member member = new Member();
                         member.Name = table.Cell(i, 1).Value.ToString();
                         member.Gender = table.Cell(i, 2).Value.ToString();
                         memberList.Add(member);
-                    }
+                    //}
                 }
 
                 //List<Member> womenMembers = memberList.Where(x => x.Gender.Equals("女")).ToList();
