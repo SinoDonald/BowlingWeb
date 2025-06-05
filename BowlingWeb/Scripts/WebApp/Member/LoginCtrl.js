@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', []);
+﻿var app = angular.module('app', ['ui.router']);
 
 app.run(['$http', '$window', function ($http, $window) {
     $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
