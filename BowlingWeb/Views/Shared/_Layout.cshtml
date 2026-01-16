@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>無聊滾球</title>
-    <base href="@Url.Content("~/")" />"
+    <base href="@Url.Content("~/")" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -37,7 +37,7 @@
 
     @RenderSection("Styles", required: false)
 </head>
-<body>
+<body id="page-top">
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
         <div class="container">
@@ -51,25 +51,47 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section">@Html.ActionLink("首頁", "Index", "Home")</li>
-                            <li><a href="~/Member/Create" class="scroll-to-section">新增分數</a></li>
+                            <li>
+                                <a href="#page-top" onclick="window.location.href='@Url.Action("Index", "Home")'; return false;">首頁</a>
+                            </li>
+
+                            <li>
+                                <a href="#page-top" onclick="window.location.href='@Url.Content("~/Member/Create")'; return false;">新增分數</a>
+                            </li>
+
                             @if (Session["Account"] != null)
                             {
                                 if (Session["Account"].ToString().Equals("Donald"))
                                 {
-                                    <li class="scroll-to-section">@Html.ActionLink("上傳檔案", "Upload", "Member")</li>
-                                    @*<li class="scroll-to-section">@Html.ActionLink("下載檔案", "Download", "Member")</li>*@
+                                    <li>
+                                        <a href="#page-top" onclick="window.location.href='@Url.Action("Upload", "Member")'; return false;">上傳檔案</a>
+                                    </li>
                                 }
                             }
-                            <li><a href="~/Member/Record#!AllMemberRecord" class="scroll-to-section">個人紀錄</a></li>
-                            <li class="scroll-to-section">@Html.ActionLink("註冊", "Register", "Member")</li>
+
+                            <li>
+                                <a href="#page-top" onclick="window.location.href='@Url.Content("~/Member/Record#!AllMemberRecord")'; return false;">個人紀錄</a>
+                            </li>
+
+                            <li>
+                                <a href="#page-top" onclick="window.location.href='@Url.Action("Register", "Member")'; return false;">註冊</a>
+                            </li>
+
                             @if (Session["Account"] == null)
                             {
-                                <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink("登入", "Login", "Member")</div></li>
+                                <li>
+                                    <div class="main-red-button">
+                                        <a href="#page-top" onclick="window.location.href='@Url.Action("Login", "Member")'; return false;">登入</a>
+                                    </div>
+                                </li>
                             }
-                            @if (Session["Account"] != null)
+                            else
                             {
-                                <li class="scroll-to-section"><div class="main-red-button">@Html.ActionLink(Session["Account"].ToString(), "Login", "Member")</div></li>
+                                <li>
+                                    <div class="main-red-button">
+                                        <a href="#page-top" onclick="window.location.href='@Url.Action("Login", "Member")'; return false;">@Session["Account"]</a>
+                                    </div>
+                                </li>
                             }
                         </ul>
                         <a class='menu-trigger'>
@@ -99,23 +121,19 @@
     </footer>
 
     <!-- Scripts -->
-    @*<script src="~/Scripts/vue.js"></script>*@
-    <script src="~/Scripts/vendor/jquery/jquery.min.js"></script>
+    @*<script src="~/Scripts/vendor/jquery/jquery.min.js"></script>*@
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+
     <script src="~/Scripts/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/Scripts/js/owl-carousel.js"></script>
     <script src="~/Scripts/js/animation.js"></script>
     <script src="~/Scripts/js/imagesloaded.js"></script>
     <script src="~/Scripts/js/templatemo-custom.js"></script>
-    <script src="~/Scripts/jquery.form.js"></script>
-    @*<script src="~/Scripts/toastr.js"></script>*@
 
-    <!-- Bootstrap core JS-->
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <!-- SimpleLightbox plugin JS-->
-    <script src="~/Scripts/simpleLightbox.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/WebApp/app.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

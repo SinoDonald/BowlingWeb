@@ -357,6 +357,9 @@
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
+    <Content Include="Scripts\jquery.form.min.js.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -448,6 +451,7 @@
     <Content Include="Scripts\vendor\jquery\jquery.min.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.js" />
     <Content Include="Scripts\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Scripts\WebApp\app.js" />
     <Content Include="Scripts\WebApp\Member\DownloadCtrl.js" />
     <Content Include="Scripts\WebApp\Member\CreateCtrl.js" />
     <Content Include="Scripts\WebApp\Member\UploadCtrl.js" />

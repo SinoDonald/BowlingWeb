@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', ['ui.router', 'moment-picker']);
+﻿var app = angular.module('app');
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
