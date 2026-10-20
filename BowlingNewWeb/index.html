@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>保齡球分數統計</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#fff; --ink:#1c2530; --muted:#667385; --line:#e1e5eb;
+  --accent:#1f6feb; --accent-ink:#fff; --good:#1a7f45; --bad:#c0392b; --soft:#eaf1fe;
+  --shadow:0 1px 2px rgba(20,30,50,.06),0 4px 14px rgba(20,30,50,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161c; --card:#1b212a; --ink:#e7ebf1; --muted:#98a4b5; --line:#2c3541;
+    --accent:#5b9bff; --accent-ink:#0b1220; --good:#4cc183; --bad:#ff8a7a; --soft:#1f2c44;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.grow{flex:1}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button.primary:disabled{opacity:.5;cursor:not-allowed}
+button.chip.on{background:var(--soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+input[type=number]{width:78px}
+label{color:var(--muted);font-size:13px}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--muted);transition:.15s}
+.drop.over{border-color:var(--accent);background:var(--soft)}
+.status{margin-top:10px;font-size:14px}
+.ok{color:var(--good)} .err{color:var(--bad)}
+.tabs{display:flex;gap:6px;margin:6px 0 14px;border-bottom:1px solid var(--line)}
+.tab{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:9px 16px;color:var(--muted)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:14px 0}
+.stat{background:var(--soft);border-radius:10px;padding:12px 14px}
+.stat .k{font-size:12px;color:var(--muted)} .stat .v{font-size:26px;font-weight:700;line-height:1.2}
+.stat .n{font-size:12px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+h3{margin:0 0 8px;font-size:16px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;cursor:default}
+th.s{cursor:pointer} th.s:hover{color:var(--accent)}
+tr.me td{background:var(--soft)}
+.scroll{overflow-x:auto}
+.hide{display:none!important}
+svg text{fill:var(--muted);font-size:11px}
+.entry td,.entry th{text-align:center;padding:4px 6px}
+.entry input{width:68px;text-align:center}
+.muted{color:var(--muted)}
+.warn{color:#b26a00;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>保齡球分數統計</h1>
+  <p class="sub">選取 Excel 統計檔 → 查詢個人成績 / 區間統計 → 新增成績並下載更新後的 Excel。所有處理都在你的瀏覽器內完成,檔案不會上傳。</p>
+
+  <div class="card">
+    <div class="drop" id="drop">
+      <div>將 Excel 檔 (.xlsx) 拖曳到這裡,或</div>
+      <p><button class="primary" id="pick">選取 Excel 檔</button></p>
+      <input type="file" id="file" accept=".xlsx" class="hide">
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="tabs">
+      <button class="tab on" data-tab="stat">成績查詢</button>
+      <button class="tab" data-tab="add">新增成績</button>
+    </div>
+
+    <!-- 成績查詢 -->
+    <section id="tab-stat">
+      <div class="card">
+        <div class="row">
+          <label>玩家</label><select id="player"></select>
+          <label>從</label><input type="date" id="from">
+          <label>到</label><input type="date" id="to">
+          <button id="clear">全部期間</button>
+        </div>
+        <div class="row" style="margin-top:10px" id="quick"></div>
+      </div>
+      <div class="card" id="result"></div>
+      <div class="card">
+        <h3>全員比較 <span class="muted" style="font-weight:400;font-size:13px">(套用上方日期區間,點欄位標題可排序)</span></h3>
+        <div class="scroll" id="compare"></div>
+      </div>
+    </section>
+
+    <!-- 新增成績 -->
+    <section id="tab-add" class="hide">
+      <div class="card">
+        <div class="row">
+          <label>日期</label><input type="date" id="addDate">
+          <label>次數</label><input type="text" id="addNo" style="width:70px">
+          <label>局數</label>
+          <select id="addGames"></select>
+          <span class="warn" id="dupWarn"></span>
+        </div>
+        <p class="muted" style="margin:10px 0 6px">該場沒打的玩家請留白 (寫入 Excel 時會依原檔格式填入「-」)。</p>
+        <div class="scroll"><table class="entry" id="entry"></table></div>
+        <div class="row" style="margin-top:12px">
+          <input type="text" id="newName" placeholder="新玩家姓名">
+          <button id="addPlayer">+ 新增玩家欄位</button>
+          <span class="grow"></span>
+          <button class="primary" id="save">寫入成績</button>
+        </div>
+        <div class="status" id="addStatus"></div>
+      </div>
+      <div class="card">
+        <div class="row">
+          <div class="grow">
+            <b>下載更新後的 Excel</b>
+            <div class="muted" style="font-size:13px">寫入後的資料保留在記憶體中,可連續新增多場,最後下載一次即可。原檔不會被覆蓋。<br>
+            新增的場次會依原檔樣式 (合併儲存格、小計/平均列、總計/總平均公式) 寫入「保齡球分數統計」與「圖表」兩個工作表。</div>
+          </div>
+          <button class="primary" id="download" disabled>下載 Excel</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="jszip.min.js"></script>
+<script src="bowling-core.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const fmt = (v, d = 1) => v == null ? '-' : Number(v).toFixed(d).replace(/\.0+$/, d ? '' : '');
+  const fmt1 = v => v == null ? '-' : (Math.round(v * 10) / 10).toString();
+  const dShow = ms => { const d = new Date(ms); return `${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`; };
+  const toMs = iso => iso ? Date.parse(iso + 'T00:00:00Z') : null;
+
+  let ctx = null, curBuf = null, fileName = '', dirty = false;
+  let extraPlayers = [];   // 新增頁暫存的新玩家
+  let sortKey = 'avg', sortDir = -1;
+
+  /* ---------- 選檔 ---------- */
+  $('pick').onclick = () => $('file').click();
+  $('file').onchange = e => e.target.files[0] && load(e.target.files[0]);
+  const drop = $('drop');
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', e => e.dataTransfer.files[0] && load(e.dataTransfer.files[0]));
+
+  async function load(file) {
+    const st = $('status'); st.className = 'status'; st.textContent = '解析中…';
+    try {
+      if (!/\.xlsx$/i.test(file.name)) throw new Error('請選擇 .xlsx 檔案');
+      const buf = new Uint8Array(await file.arrayBuffer());
+      ctx = await BowlingCore.open(buf); curBuf = buf; fileName = file.name; dirty = false; extraPlayers = [];
+      onLoaded();
+    } catch (e) {
+      console.error(e); st.className = 'status err'; st.textContent = '讀取失敗:' + e.message;
+    }
+  }
+
+  function onLoaded() {
+    const d = ctx.data, st = $('status');
+    const s0 = d.sessions[0], s1 = d.sessions[d.sessions.length - 1];
+    const games = d.sessions.reduce((a, s) => a + s.games.length, 0);
+    st.className = 'status ok';
+    st.textContent = `已載入「${fileName}」:${d.players.length} 位玩家、${d.sessions.length} 場、${games} 局,期間 ${dShow(s0.dateMs)} ~ ${dShow(s1.dateMs)}` + (dirty ? '(含尚未下載的新增內容)' : '');
+    $('main').classList.remove('hide');
+    $('download').disabled = !dirty;
+    // 玩家選單
+    const sel = $('player'), keep = sel.value;
+    sel.innerHTML = d.players.map(p => `<option>${esc(p.name)}</option>`).join('');
+    if (keep && d.players.some(p => p.name === keep)) sel.value = keep;
+    // 預設日期範圍
+    if (!$('from').value && !$('to').value) { $('from').min = $('to').min = new Date(s0.dateMs).toISOString().slice(0, 10); }
+    buildQuick(); renderStat(); resetAdd(false);
+  }
+
+  /* ---------- 查詢 ---------- */
+  function buildQuick() {
+    const q = $('quick'); if (q.dataset.built) return; q.dataset.built = 1;
+    const last = ctx.data.sessions[ctx.data.sessions.length - 1].dateMs;
+    const yr = new Date(last).getUTCFullYear();
+    const items = [['近 3 個月', () => rel(3)], ['近 6 個月', () => rel(6)], ['近 1 年', () => rel(12)], [`${yr} 年`, () => setR(`${yr}-01-01`, `${yr}-12-31`)], [`${yr - 1} 年`, () => setR(`${yr - 1}-01-01`, `${yr - 1}-12-31`)]];
+    q.innerHTML = '<span class="muted">快速區間:</span>';
+    for (const [t, fn] of items) { const b = document.createElement('button'); b.className = 'chip'; b.textContent = t; b.onclick = () => { fn(); renderStat(); }; q.appendChild(b); }
+    function setR(a, b) { $('from').value = a; $('to').value = b; }
+    function rel(m) { const l = new Date(ctx.data.sessions[ctx.data.sessions.length - 1].dateMs); const f = new Date(Date.UTC(l.getUTCFullYear(), l.getUTCMonth() - m, l.getUTCDate() + 1)); setR(f.toISOString().slice(0, 10), l.toISOString().slice(0, 10)); }
+  }
+  ['player', 'from', 'to'].forEach(id => $(id).addEventListener('change', renderStat));
+  $('clear').onclick = () => { $('from').value = ''; $('to').value = ''; renderStat(); };
+
+  function range() { const f = toMs($('from').value), t = toMs($('to').value); return [f, t]; }
+
+  function renderStat() {
+    if (!ctx) return;
+    const d = ctx.data, name = $('player').value, [f, t] = range();
+    const s = BowlingCore.stats(d, name, f, t);
+    const rng = (f || t) ? `${f ? dShow(f) : '最早'} ~ ${t ? dShow(t) : '最新'}` : '全部期間';
+    let h = `<h3>${esc(name)} <span class="muted" style="font-weight:400;font-size:13px">${rng}</span></h3>`;
+    if (!s.count) { h += '<p class="muted">此區間沒有成績。</p>'; $('result').innerHTML = h; renderCompare(); return; }
+    const card = (k, v, n) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="n">${n || '&nbsp;'}</div></div>`;
+    h += '<div class="cards">' +
+      card('平均分數', fmt1(s.avg), `共 ${s.count} 局`) +
+      card('最高分', s.max, dShow(s.maxDate)) +
+      card('最低分', s.min, dShow(s.minDate)) +
+      card('中位數', fmt1(s.median), `標準差 ${fmt1(s.sd)}`) +
+      card('出賽場次', s.sessions, `每場平均 ${fmt1(s.count / s.sessions)} 局`) +
+      card('150 分以上', s.ge150, `${fmt1(s.ge150 / s.count * 100)}%`) +
+      card('200 分以上', s.ge200, `${fmt1(s.ge200 / s.count * 100)}%`) +
+      card('最佳單場平均', fmt1(s.bestSession.avg), dShow(s.bestSession.dateMs)) +
+      '</div>';
+    h += '<div class="grid2"><div><h3>每場平均走勢</h3>' + trendSvg(s.perSession) + '</div><div><h3>分數分布</h3>' + histSvg(s.scores) + '</div></div>';
+    h += '<h3 style="margin-top:16px">場次明細 <span class="muted" style="font-weight:400;font-size:13px">(新到舊)</span></h3><div class="scroll" style="max-height:340px;overflow-y:auto"><table><thead><tr><th>日期</th><th>各局成績</th><th>場平均</th><th>最高</th><th>最低</th></tr></thead><tbody>' +
+      [...s.perSession].reverse().map(x => `<tr><td>${dShow(x.dateMs)}</td><td>${x.scores.join(' / ')}</td><td>${fmt1(x.avg)}</td><td>${x.max}</td><td>${x.min}</td></tr>`).join('') + '</tbody></table></div>';
+    $('result').innerHTML = h;
+    renderCompare();
+  }
+
+  function trendSvg(ps) {
+    const W = 520, H = 220, m = { l: 34, r: 10, t: 10, b: 24 };
+    if (ps.length < 2) return '<p class="muted">場次不足,無法繪製走勢。</p>';
+    const ys = ps.map(p => p.avg), lo = Math.floor(Math.min(...ys) / 10) * 10, hi = Math.ceil(Math.max(...ys) / 10) * 10 || lo + 10;
+    const x0 = ps[0].dateMs, x1 = ps[ps.length - 1].dateMs || x0 + 1;
+    const X = v => m.l + (v - x0) / (x1 - x0 || 1) * (W - m.l - m.r), Y = v => H - m.b - (v - lo) / (hi - lo || 1) * (H - m.t - m.b);
+    let g = '';
+    for (let i = 0; i <= 4; i++) { const v = lo + (hi - lo) * i / 4; g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l - 5}" y="${Y(v) + 4}" text-anchor="end">${Math.round(v)}</text>`; }
+    const y0 = new Date(x0).getUTCFullYear(), y1 = new Date(x1).getUTCFullYear();
+    for (let y = y0; y <= y1; y++) { const v = Date.UTC(y, 0, 1); if (v >= x0 && v <= x1) g += `<text x="${X(v)}" y="${H - 6}" text-anchor="middle">${y}</text>`; }
+    const avg = ys.reduce((a, b) => a + b, 0) / ys.length;
+    const pts = ps.map(p => `${X(p.dateMs).toFixed(1)},${Y(p.avg).toFixed(1)}`).join(' ');
+    return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="每場平均走勢">${g}
+      <line x1="${m.l}" x2="${W - m.r}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="var(--bad)" stroke-dasharray="4 3"/>
+      <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+      ${ps.map(p => `<circle cx="${X(p.dateMs).toFixed(1)}" cy="${Y(p.avg).toFixed(1)}" r="2.6" fill="var(--accent)"><title>${dShow(p.dateMs)}  場平均 ${fmt1(p.avg)}</title></circle>`).join('')}
+      <text x="${W - m.r}" y="${Y(avg) - 4}" text-anchor="end" style="fill:var(--bad)">區間平均 ${fmt1(avg)}</text></svg>`;
+  }
+  function histSvg(sc) {
+    const W = 520, H = 220, m = { l: 30, r: 10, t: 10, b: 24 }, bin = 20;
+    const lo = Math.floor(Math.min(...sc) / bin) * bin, hi = Math.floor(Math.max(...sc) / bin) * bin + bin;
+    const nb = (hi - lo) / bin, cnt = Array(nb).fill(0); sc.forEach(v => cnt[Math.min(nb - 1, Math.floor((v - lo) / bin))]++);
+    const mx = Math.max(...cnt), bw = (W - m.l - m.r) / nb, Y = v => H - m.b - v / mx * (H - m.t - m.b);
+    let g = '';
+    cnt.forEach((c, i) => {
+      const x = m.l + i * bw;
+      g += `<rect x="${x + 1}" y="${Y(c)}" width="${bw - 2}" height="${H - m.b - Y(c)}" fill="var(--accent)" opacity=".85"><title>${lo + i * bin}~${lo + i * bin + bin - 1}:${c} 局</title></rect>`;
+      if (c) g += `<text x="${x + bw / 2}" y="${Y(c) - 3}" text-anchor="middle">${c}</text>`;
+      if (nb <= 14 || i % 2 === 0) g += `<text x="${x}" y="${H - 8}" text-anchor="middle">${lo + i * bin}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="分數分布">${g}</svg>`;
+  }
+
+  function renderCompare() {
+    const d = ctx.data, [f, t] = range(), me = $('player').value;
+    const rows = d.players.map(p => ({ name: p.name, ...BowlingCore.stats(d, p.name, f, t) })).filter(r => r.count);
+    rows.sort((a, b) => ((a[sortKey] ?? 0) - (b[sortKey] ?? 0)) * sortDir || a.name.localeCompare(b.name));
+    const cols = [['name', '玩家'], ['sessions', '場次'], ['count', '局數'], ['avg', '平均'], ['max', '最高'], ['min', '最低'], ['median', '中位數'], ['sd', '標準差'], ['ge150', '≥150'], ['ge200', '≥200']];
+    $('compare').innerHTML = '<table><thead><tr>' + cols.map(([k, n]) => `<th class="s" data-k="${k}">${n}${k === sortKey ? (sortDir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('') + '</tr></thead><tbody>' +
+      (rows.map(r => `<tr class="${r.name === me ? 'me' : ''}"><td>${esc(r.name)}</td><td>${r.sessions}</td><td>${r.count}</td><td>${fmt1(r.avg)}</td><td>${r.max}</td><td>${r.min}</td><td>${fmt1(r.median)}</td><td>${fmt1(r.sd)}</td><td>${r.ge150}</td><td>${r.ge200}</td></tr>`).join('') || '<tr><td colspan="10" class="muted">此區間沒有資料</td></tr>') + '</tbody></table>';
+    $('compare').querySelectorAll('th.s').forEach(th => th.onclick = () => { const k = th.dataset.k; if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = k === 'name' ? 1 : -1; } renderCompare(); });
+  }
+
+  /* ---------- 分頁 ---------- */
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === b));
+    $('tab-stat').classList.toggle('hide', b.dataset.tab !== 'stat');
+    $('tab-add').classList.toggle('hide', b.dataset.tab !== 'add');
+  });
+
+  /* ---------- 新增成績 ---------- */
+  $('addGames').innerHTML = Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  $('addGames').value = 5;
+  $('addGames').onchange = () => { snapshot(); drawEntry(); };
+  $('addDate').onchange = checkDup;
+
+  let cache = {};
+  function snapshot() { document.querySelectorAll('#entry input[data-p]').forEach(i => cache[i.dataset.p + '|' + i.dataset.g] = i.value); }
+  function allNames() { return [...ctx.data.players.map(p => p.name), ...extraPlayers]; }
+  function drawEntry() {
+    const N = +$('addGames').value, names = allNames();
+    let h = '<thead><tr><th>局</th>' + names.map(n => `<th>${esc(n)}${extraPlayers.includes(n) ? ' <span class="warn">(新)</span>' : ''}</th>`).join('') + '</tr></thead><tbody>';
+    for (let g = 0; g < N; g++) h += `<tr><th>${g + 1}</th>` + names.map(n => `<td><input type="number" min="0" max="300" inputmode="numeric" data-p="${esc(n)}" data-g="${g}" value="${esc(cache[n + '|' + g] ?? '')}"></td>`).join('') + '</tr>';
+    $('entry').innerHTML = h + '</tbody>';
+  }
+  function checkDup() {
+    const d = toMs($('addDate').value);
+    $('dupWarn').textContent = (d != null && ctx.data.sessions.some(s => s.dateMs === d)) ? '⚠ 此日期已有資料,將再新增一場' : '';
+  }
+  function resetAdd(clearCache = true) {
+    if (clearCache) cache = {};
+    const d = ctx.data, last = d.sessions[d.sessions.length - 1];
+    if (!$('addDate').value) $('addDate').value = new Date().toISOString().slice(0, 10);
+    const n = parseInt(last.no, 10); $('addNo').value = isNaN(n) ? '' : n + 1;
+    $('addGames').value = Math.min(10, Math.max(1, last.games.length || 5));
+    drawEntry(); checkDup();
+  }
+  $('addPlayer').onclick = () => {
+    const nm = $('newName').value.trim(), st = $('addStatus');
+    if (!nm) return;
+    if (allNames().includes(nm)) { st.className = 'status err'; st.textContent = `「${nm}」已存在`; return; }
+    snapshot(); extraPlayers.push(nm); $('newName').value = ''; st.textContent = ''; drawEntry();
+  };
+
+  $('save').onclick = async () => {
+    const st = $('addStatus'); st.className = 'status'; st.textContent = '';
+    try {
+      snapshot();
+      const N = +$('addGames').value, names = allNames(), scores = {};
+      for (const n of names) {
+        scores[n] = Array.from({ length: N }, (_, g) => {
+          const raw = (cache[n + '|' + g] ?? '').toString().trim();
+          if (raw === '') return null;
+          const v = Number(raw);
+          if (!Number.isInteger(v) || v < 0 || v > 300) throw new Error(`${n} 第 ${g + 1} 局的分數「${raw}」不正確 (需為 0~300 的整數)`);
+          return v;
+        });
+      }
+      const date = $('addDate').value; if (!date) throw new Error('請選擇日期');
+      const no = $('addNo').value.trim(); if (!no) throw new Error('請填入次數');
+      const gaps = names.filter(n => scores[n].some(v => v != null) && scores[n].some(v => v == null));
+      if (gaps.length && !confirm(`${gaps.join('、')} 有部分局數沒填 (視為沒打該局),確定要寫入嗎?`)) return;
+      const used = extraPlayers.filter(n => scores[n].some(v => v != null));
+      $('save').disabled = true; st.textContent = '寫入中…';
+      const out = await BowlingCore.addSession(ctx, { date, no, games: N, newPlayers: used, scores });
+      ctx = await BowlingCore.open(out); curBuf = out; dirty = true; extraPlayers = extraPlayers.filter(n => !used.includes(n));
+      cache = {}; $('addDate').value = '';
+      onLoaded();
+      st.className = 'status ok'; st.textContent = `已寫入 ${date} 的成績 (${N} 局)。請記得按下方「下載 Excel」取得更新後的檔案。`;
+    } catch (e) { console.error(e); st.className = 'status err'; st.textContent = '寫入失敗:' + e.message; }
+    finally { $('save').disabled = false; }
+  };
+
+  $('download').onclick = () => {
+    const last = ctx.data.sessions[ctx.data.sessions.length - 1];
+    const ymd = new Date(last.dateMs).toISOString().slice(0, 10).replace(/-/g, '');
+    const base = fileName.replace(/\.xlsx$/i, '').replace(/_\d{8}$/, '');
+    const blob = new Blob([curBuf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${base}_${ymd}.xlsx`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    dirty = false;
+  };
+  window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+})();
+</script>
+</body>
+</html>
